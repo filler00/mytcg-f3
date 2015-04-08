@@ -1,0 +1,206 @@
+<?php
+/*
+INSTALLATION INFORMATION
+username = The username for the admin panel
+password = The password for the admin panel
+*/
+
+$user = 'demo';
+$pass = 'demosuer';
+
+/*
+EMAIL & WEBSITE VARIABLES
+$tcgemail = The email address you use for all TCG mail
+$tcgname = The name of your TCG
+$tcgurl = Your TCG's URL
+$header = The full path to your header file
+$footer = The full path to your footer file
+$width = The width of your cards
+$height = The height of your cards
+$ext = Your card extension, ie. gif, png, jpg
+*/
+
+$tcgemail = 'demo@gmail.com';
+$tcgname = 'Demo';
+$tcgowner = 'Demo';
+$tcgurl = 'http://my.tcg-publicity.com';
+$tcgcardurl = 'http://my.tcg-publicity.com/cards/';
+$header = '/home/usr/public_html/tcg/header.php';
+$footer = '/home/usr/public_html/tcg/footer.php';
+$width = '85';
+$height = '65';
+$ext = 'gif';
+
+/*
+DATABASE VARIABLES
+$db_server = The database server, usually localhost
+$db_user = The username for your database
+$db_password = The password for your database
+$db_database = The database name
+$table_members = The table for the member list.
+$table_cards = The table for your card information.
+$table_upcoming = The table for your upcoming card list
+$table_affiliates = The table for your affiliate information
+*/
+
+$db_server = 'localhost';
+$db_user = 'mytcg';
+$db_password = 'mytcgdemo';
+$db_database = 'mytcg-f3';
+$table_members = 'members';
+$table_cards = 'cards';
+$table_upcoming = 'upcoming';
+$table_affiliates = 'affiliates';
+$table_games = 'games';
+
+/*
+LEVEL VARIABLES
+$num_levels = the number of levels your TCG has (not including pending or hiatus/troubled). This number can be changed if you add levels.
+$level[] = The level names for your levels. They can be added to if necessary.
+$levelcount[] = The number of cards for each level. This is only used on the information page.
+*NOTE* There is no pending level. This is because pending is determined by the member's status, not by their level.
+*/
+
+$num_levels = '10';
+$level[1] = 'Level 1';
+$level[2] = 'Level 2';
+$level[3] = 'Level 3';
+$level[4] = 'Level 4';
+$level[5] = 'Level 5';
+$level[6] = 'Level 6';
+$level[7] = 'Level 7';
+$level[8] = 'Level 8';
+$level[9] = 'Level 9';
+$level[10] = 'Level 10';
+$levelcount[1] = '001-100';
+$levelcount[2] = '101-200';
+$levelcount[3] = '201-300';
+$levelcount[4] = '301-400';
+$levelcount[5] = '401-500';
+$levelcount[6] = '501-600';
+$levelcount[7] = '601-700';
+$levelcount[8] = '701-800';
+$levelcount[9] = '801-900';
+$levelcount[10] = '901-1000';
+
+/*
+CARD VARIABLES
+$num_categories = The number of categories of cards your TCG has. This variable can be changed later if necessary.
+$category[] = The category names for your card categories. They can be added to if necessary.
+$digits = The number of cards in your regular card decks. Currently the included randomizer only works with regular card decks that are all the same number. If you need a different setup, you will have to edit it yourself or use a different randomizer.
+$digits_spc = The number of cards in your special card decks. Currently the included randomizer only works with special card decks that are all the same number. If you need a different setup, you will have to edit it yourself or use a different randomizer.
+*/
+
+$num_categories = '3';
+$category[1] = 'Category';
+$category[2] = 'Category2';
+$category[3] = 'Category3';
+
+$digits = array (
+	"01",
+	"02",
+	"03",
+	"04",
+	"05",
+	"06",
+	"07",
+	"08",
+	"09",
+	"10",
+	"11",
+	"12",
+	"13",
+	"14",
+	"15",
+	"16",
+	"17",
+	"18",
+	"19",
+	"20"
+);
+
+$digits_spc = array (
+	"01",
+	"02",
+	"03",
+	"04",
+	"05",
+	"06",
+	"07",
+	"08",
+	"09",
+	"10"
+);
+
+/*
+GAME INFORMATION
+$num_gamecats = The number of game categories you have
+$gamecat[] = The various categories of games
+*/
+
+$num_gamecats = '3';
+$gamecat[1] = 'Group A';
+$gamecat[2] = 'Group B';
+$gamecat[3] = 'Group C';
+
+/*
+AFFILIATE INFORMATION
+$buttonsize = The size for all affiliate buttons, ie. 88x31.
+$buttonurl = The URL to your affiliate image folder WITH TRAILING SLASH
+$num_affiliates = The number of affiliate categories you have
+$affiliates[] = The various categories of affiliates
+*/
+
+$buttonsize = '88x31';
+$buttonurl = 'http://tcg.you.com/affiliates/';
+$num_affiliates = '3';
+$affiliates[1] = 'Pending';
+$affiliates[2] = 'Active';
+$affiliates[3] = 'Hiatus';
+
+/*
+FORM INFORMATION
+$num_startreg = The number of random regular cards you want to include in your starter pack
+$num_startspc = The number of random special cards you want to include in your starter pack
+$num_startchoice = The number of cards from the member's collecting deck you want to include in your starter pack
+$num_lvlchoice = The number of choice cards included in every level up
+$num_lvlreg = The number of random regular cards included in every level up
+$num_lvlspc = The number of random special cards included in every level up
+$num_maschoice = The number of choice cards included in every mastery
+$num_masreg = The number of random regular cards included in every mastery
+$num_masspc = The number of random special cards included in every mastery
+*/
+
+$num_startreg = '5';
+$num_startspc = '0';
+$num_startchoice = '2';
+$num_lvlchoice = '1';
+$num_lvlreg = '2';
+$num_lvlspc = '1';
+$num_maschoice = '2';
+$num_masreg = '3';
+$num_masspc = '1';
+
+
+/********************************************************
+** DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING **
+********************************************************/
+
+	$users = array($user => md5($pass));
+	$salt = substr(md5(date("F")), 8);
+
+	$connect = mysql_connect("$db_server", "$db_user", "$db_password")
+		or die( DATABASE_CONNECT_ERROR . mysql_error() );
+	mysql_select_db("$db_database", $connect)
+		or die( DATABASE_CONNECT_ERROR . mysql_error() );
+		
+	function CleanUp($data) {
+   		$data = trim(htmlentities(strip_tags($data)));
+   		return $data;
+		}
+
+	function escape_sql($sql) {
+    	if (get_magic_quotes_gpc()) $sql = stripslashes($sql);
+    	return mysql_real_escape_string($sql);
+		}
+?>

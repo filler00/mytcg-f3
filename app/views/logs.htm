@@ -1,0 +1,12 @@
+<h1>Activity Log</h1>
+
+<div class="well">
+	<check if="{{ file_exists('logs/' . @SESSION.userID . '.log') }}">
+		<true>
+			<include href="{{ 'logs/' . @SESSION.userID . '.log' }}" />
+		</true>
+		<false>
+			<em>Your log is empty! Go play some games!</em>
+		</false>
+	</check>
+</div>

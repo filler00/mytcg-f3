@@ -1,0 +1,37 @@
+<h1>Affiliates</h1>
+
+<check if="{{ count(@affiliates) > 0 }}">
+	<true>
+		<repeat group="{{ @affiliates }}" value="{{ @affiliate }}">
+			<a href="{{ @affiliate.url }}" target="_blank"><img src="{{ $buttonurl . @affiliate.button }}" title="{{ @affiliate.tcgname }}"></a>
+		</repeat>
+	</true>
+	<false>
+		<p><em>No affiliates yet!</em></p>
+	</false>
+</check>
+
+<h2>Want to become one?</h2>
+<form method="post" action="{{ @tcgurl }}affiliates/request">
+	<div class="form-group">
+		<label for="name">Owner's Name</label>
+		<input type="text" class="form-control" name="name" value="{{ isset(@POST.name) ? @POST.name : '' }}" required>
+	</div>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="email" class="form-control" name="email" value="{{ isset(@POST.email) ? @POST.email : '' }}" required>
+	</div>
+	<div class="form-group">
+		<label for="tcgname">TCG Name</label>
+		<input type="text" class="form-control" name="tcgname" value="{{ isset(@POST.tcgname) ? @POST.tcgname : '' }}" required>
+	</div>
+	<div class="form-group">
+		<label for="url">URL</label>
+		<input type="url" class="form-control" name="url" value="{{ isset(@POST.url) ? @POST.url : '' }}" required>
+	</div>
+	<div class="form-group">
+		<label for="button">Button URL</label>
+		<input type="url" class="form-control" name="button" value="{{ isset(@POST.button) ? @POST.button : '' }}" required>
+	</div>
+	<button type="submit" class="btn btn-primary" name="request">Submit</button>
+</form>

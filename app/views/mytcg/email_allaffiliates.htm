@@ -1,0 +1,76 @@
+<?php require('check.php');
+require_once('settings.php'); 
+include('header.php');
+
+if(!$_SERVER['QUERY_STRING']) {
+	?>
+	<h1>Email All Affiliates</h1>
+	Need to contact all of <?php echo $tcgname; ?>'s affiliates? Use this form. If you need to email one affiliate, please use the contact form from <a href="affiliates.php">this page</a>.
+	<br /><br />
+	
+	<form method="post" action="email_allaffiliates.php?email">
+	<table>
+	<tr><td valign="top">Message:</td><td><textarea name="message" rows="5" cols="50"></textarea></td></tr>
+	<tr><td>&nbsp;</td><td><input type="submit" name="submit" value=" Send! " /></td></tr>
+	</table>
+	</form>
+	<?php
+}
+
+elseif($_SERVER['QUERY_STRING']=="email") {
+	if (!isset($_POST['submit']) || $_SERVER['REQUEST_METHOD'] != "POST") {
+		exit("<p>You did not press the submit button; this page should not be accessed directly.</p>");
+	}
+	else {
+		$exploits = "/(content-type|bcc:|cc:|document.cookie|onclick|onload|javascript|alert)/i";
+		$profanity = "/(beastial|bestial|blowjob|clit|cum|cunilingus|cunillingus|cunnilingus|cunt|ejaculate|fag|felatio|fellatio|fuck|fuk|fuks|gangbang|gangbanged|gangbangs|hotsex|jism|jiz|kock|kondum|kum|kunilingus|orgasim|orgasims|orgasm|orgasms|phonesex|phuk|phuq|porn|pussies|pussy|spunk|xxx)/i";
+		$spamwords = "/(viagra|phentermine|tramadol|adipex|advai|alprazolam|ambien|ambian|amoxicillin|antivert|blackjack|backgammon|texas|holdem|poker|carisoprodol|ciara|ciprofloxacin|debt|dating|porn)/i";
+		$bots = "/(Indy|Blaiz|Java|libwww-perl|Python|OutfoxBot|User-Agent|PycURL|AlphaServer)/i";
+		
+		if (preg_match($bots, $_SERVER['HTTP_USER_AGENT'])) {
+			exit("<h1>Error</h1>\nKnown spam bots are not allowed.<br /><br />");
+			}
+			foreach ($_POST as $key => $value) {
+				$value = trim($value);
+				if (empty($value)) {
+					exit("<h1>Error</h1>\nEmpty fields are not allowed. Please go back and fill in the form properly.<br /><br />");
+				}
+				elseif (preg_match($exploits, $value)) {
+					exit("<h1>Error</h1>\nExploits/malicious scripting attributes aren't allowed.<br /><br />");
+				}
+				elseif (preg_match($profanity, $value) || preg_match($spamwords, $value)) {
+					exit("<h1>Error</h1>\nThat kind of language is not allowed through our form.<br /><br />");
+				}
+				
+				$_POST[$key] = stripslashes(strip_tags($value));
+			}
+			
+			?>
+			
+			<h1>Emails</h1>
+			Your email was sent to the following:<br />
+			<?php
+			$select=mysql_query("SELECT * FROM `$table_affiliates` ORDER BY `name`");
+			while($row=mysql_fetch_assoc($select)) {
+			
+				$recipient = "$row[email]";
+				$subject = "$tcgname: Affiliate Contact Form";
+			
+				$message = "$tcgowner at $tcgname has sent you the following message: \n";
+				$message .= "{$_POST['message']} \n\n";
+				$message .= "-- $tcgowner\n";
+				$message .= "$tcgname: $tcgurl\n";
+			
+				$headers = "From: $tcgname <$tcgemail> \n";
+				$headers .= "Reply-To: $tcgname <$tcgemail>";			
+			if (mail($recipient,$subject,$message,$headers)) {
+				echo "Success: $row[name] ($row[tcgname]) @ $row[email]<br />\n";
+			}
+			else {
+				echo "Failed: $row[name] ($row[tcgname]) @ $row[email]<br />\n";
+			}
+			}
+	}
+}
+
+include('footer.php'); ?>

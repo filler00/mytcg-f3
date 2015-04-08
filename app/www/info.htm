@@ -1,0 +1,30 @@
+<h1>Overview</h1>
+<p>Can't find the information you're looking for? <a href="{{ @tcguri }}contact">Contact us</a> and we will answer your question ASAP.</p>
+	
+<h2>What is a TCG?</h2>
+<p>Online <b>T</b>rading <b>C</b>ard <b>G</b>ames are similar to the trading cards you knew as a child. Rather than playing in person and collecting cards from packs at the store, you collect everything online. The goal is to collect all of the cards you like, also know as mastering a deck. Online TCGs are free to play, a lot of fun, and very addictive!</p>
+	
+<h2>Trade Post</h2>
+<p>Before you join, you'll need a website to keep and display your cards, also know as a <strong>trade post</strong>. Your trade post should contain:
+<ul>
+	<li>A record of how you earned all of your cards, AKA an <strong>activity log</strong>.</li>
+	<li>A means for other traders to contact you - such as an <strong>email address</strong> or a <strong>contact form</strong>.</li>
+	<li>Ideally, your cards should be separated into <strong>categories</strong> (such as "keeping" and "trading") so that other players can easily find cards that they want, as well as cards to offer you in return.</li>
+</ul>
+
+<h2>Levels</h2>
+<p>The rewards for leveling up are {{ @num_lvlchoice }} regular card(s) of choice, {{ @num_lvlreg }} random regular card(s), and {{ @num_lvlspc }} random special card(s).</p>
+
+<table class="table">
+	<thead>
+		<tr><th>Level</th><th>Requirements</th></tr>
+	</thead>
+	<tbody>
+		<repeat group="{{ @level }}" value="{{ @lvl }}" key="{{ @index }}">
+			<tr><td>{{ @lvl }}</td><td>{{ @levelcount[@index] }} cards</td></tr>
+		</repeat>
+	</tbody>
+</table>
+
+<h2>Masteries</h2>
+<p>Once you have collected all of the cards in a deck, you have <strong>mastered</strong> the deck. This means you cannot trade away any of these cards (except for doubles, of course) but you will receive some rewards for doing so. For every deck you master, you receive {{ @num_maschoice }} regular card(s) of choice, {{ @num_masreg }} random regular cards, and {{ @num_masspc }} random special cards.</p>

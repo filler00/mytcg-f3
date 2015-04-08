@@ -1,0 +1,43 @@
+html, body {	background-color: #666666;	margin: 0px;	padding: 0px;	font-family: Verdana, Tahoma, sans-serif;	font-size: 11px;
+	line-height: 11px;	color: #000000;}
+
+#wrapper {
+	position: relative;
+	text-align: center;
+	margin: 0px auto;
+	width: 490px;
+	padding: 20px;
+	background-color: #333333;
+}
+
+#layout {
+	position: relative;
+	width: 490px;
+	padding: 20px 0px;
+}#navigation {	position: relative; 	width: 470px; 	background-color: #ffffff; 	padding: 10px;}
+
+#content {
+	position: relative;	width: 450px;	margin: 0px;	padding: 10px 20px;	background-color: #ffffff;	line-height: 11px;	text-align: left;
+}
+
+#footer {	position: relative; 	width: 470px; 	background-color: #ffffff; 	padding: 10px;}
+a, a:link, a:visited, a:active {	color: #666666;	text-decoration: none;	font-weight: bold;
+}a:hover {	color: #000000; }
+
+a.navi, a.navi:link, a.navi:visited, a.navi:active {	color: #333333;	text-decoration: none;	text-transform: uppercase;}a.navi:hover {	color: #666666; }input, textarea, option, select {	font-family: Verdana, Tahoma, sans-serif; 	font-size: 11px; 	color: #ffffff; 	background-color: #000000; 	border-left: 5px solid #666666; 	border-right: 1px solid #666666; 	border-top: 1px solid #666666; 	border-bottom: 1px solid #666666; 	padding: 2px 5px; }
+blockquote {
+	font-family: Verdana, Tahoma, sans-serif; 	font-size: 11px; 	color: #ffffff; 	background-color: #000000; 	border-right: 10px solid #666666; 	border-left: 1px solid #666666; 	border-top: 1px solid #666666; 	border-bottom: 1px solid #666666; 	padding: 2px 5px;	
+}
+
+table, tr, td {
+	font-family: Verdana, Tahoma, sans-serif; 	font-size: 11px; 	color: #ffffff; 	background-color: #333333; }b {color: #666666; text-transform: uppercase;}
+i {font-family: Georgia; color: #000000;}
+u {color: #666666;}
+img {border: 0px;}
+
+h1, h3 {font-family: Georgia;font-weight: bold;font-size:14px;color: #666666;text-align: left;text-transform: uppercase;letter-spacing:1px;line-height: 16px;margin:0px;
+padding: 5px;}h2 {margin-bottom: 0px;margin-top: 0px;line-height:13px;font-size:11px;font-family: Trebuchet Ms;letter-spacing: 1px;text-transform: uppercase;font-weight: normal;color: #333333;text-align: left;padding:2px;}
+
+label {float: left;width: 12em;text-align: right;margin: 0 0.5em 0 0;}ul {
+list-style: none;
+}

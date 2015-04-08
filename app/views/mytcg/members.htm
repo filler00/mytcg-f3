@@ -1,0 +1,68 @@
+<?php require('check.php'); 
+require_once('settings.php');
+include('header.php'); ?>
+<h1>Members</h1>
+&raquo; Do you want to <a href="add_mem.php">add a member</a>?<br />
+&raquo; Need to email <a href="email_allmem.php">all members</a>?
+<br /><br />
+
+<h1>Pending</h1>
+<?php
+$select2 = mysql_query("SELECT * FROM `$table_members` WHERE `status`='Pending' ORDER BY `name`");
+$count2 = mysql_num_rows($select2);
+
+if($count2==0) {
+	echo "<center>There are currently no members at this level.</center>\n";
+	echo "<br /><br />\n\n";
+}
+else {
+	echo "<table width=\"100%\">\n";
+	echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
+	while($row2=mysql_fetch_assoc($select2)) {
+		echo "<tr><td><a href=\"edit_mem.php?id=$row2[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row2[id]\">Del.</a> | <a href=\"approve_mem.php?id=$row2[id]\">App.</a></td><td>$row2[name]</td><td><a href=\"$row2[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row2[id]\">Email?</a></td></tr>\n";
+	}
+	echo "</table>\n";
+	echo "<br /><br />\n\n";
+}
+
+for($i=1; $i<=$num_levels; $i++) {
+	$levelnum = $i;
+	$select = mysql_query("SELECT * FROM `$table_members` WHERE `level`='$levelnum' AND `status`='Active' ORDER BY `name`");
+	$count = mysql_num_rows($select);
+	echo "<h1>$level[$i]</h1>\n";
+	
+	if($count==0) {
+		echo "<center>There are currently no members at this level.</center>\n";
+		echo "<br /><br />\n\n";
+	}
+	else {
+		echo "<table width=\"100%\">\n";
+		echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
+		while($row=mysql_fetch_assoc($select)) {
+			echo "<tr><td><a href=\"edit_mem.php?id=$row[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row[id]\">Delete</a></td><td>$row[name]</td><td><a href=\"$row[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row[id]\">Email?</a></td></tr>\n";
+		}
+		echo "</table>\n";
+		echo "<br /><br />\n\n";
+	}
+}
+?>
+
+<h1>Troubled</h1>
+<?php
+$select3 = mysql_query("SELECT * FROM `$table_members` WHERE `status`='Hiatus' ORDER BY `name`");
+$count3 = mysql_num_rows($select3);
+
+if($count3==0) {
+	echo "<center>There are currently no members at this level.</center>\n";
+	echo "<br /><br />\n\n";
+}
+else {
+	echo "<table width=\"100%\">\n";
+	echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
+	while($row3=mysql_fetch_assoc($select3)) {
+		echo "<tr><td><a href=\"edit_mem.php?id=$row3[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row3[id]\">Delete</a> | <a href=\"approve_mem.php?id=$row3[id]\">Approve</a></td><td>$row3[name]</td><td><a href=\"$row3[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row3[id]\">Email?</a></td></tr>\n";
+	}
+	echo "</table>\n";
+	echo "<br /><br />\n\n";
+}
+include('footer.php'); ?>

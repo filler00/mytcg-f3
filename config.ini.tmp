@@ -1,0 +1,85 @@
+[globals]
+DEBUG = 0
+CACHE = TRUE
+AUTOLOAD = app/controllers/|app/models/
+
+;Database Config
+db_server = localhost
+db_user = username
+db_password = password
+db_database = mytcg-f3
+
+;MyTCG Login Info
+USER = adminUser
+PASS = adminPass
+
+;Email Config
+tcgemail = tcg@yourdomain.com
+noreplyemail = noreply@yourdomain.com
+emailtransport = mail
+
+smtpserver = smtp.mailgun.org
+smtpport = 587
+smtpuser = postmaster@yourdomain.com
+smtppass = password
+
+;Website Config
+tcgname = Demo TCG
+tcgowner = Foo
+tcguri = /
+tcgurl = http://tcg.yourdomain.com/
+tcgcardurl = http://tcg.yourdomain.com/assets/img/cards/
+adminurl = http://tcg.yourdomain.com/mytcg/
+width = 50px
+height = 75px
+ext = gif
+
+;TCG Level Config
+level[1] = Level 1
+level[2] = Level 2
+level[3] = Level 3
+level[4] = Level 4
+level[5] = Level 5
+level[6] = Level 6
+level[7] = Level 7
+level[8] = Level 8
+level[9] = Level 9
+level[10] = Level 10
+levelcount[1] = 001-100
+levelcount[2] = 101-200
+levelcount[3] = 201-300
+levelcount[4] = 301-400
+levelcount[5] = 401-500
+levelcount[6] = 501-600
+levelcount[7] = 601-700
+levelcount[8] = 701-800
+levelcount[9] = 801-900
+levelcount[10] = 901-1000
+
+;CARD VARIABLES
+category[1] = Regular
+category[2] = Special
+category[3] = Event
+
+;GAME INFORMATION
+gamecat[1] = Weekly
+gamecat[2] = Biweekly
+gamecat[3] = Monthly
+
+;AFFILIATE INFORMATION
+buttonsize = 88x31
+buttonurl = http://tcg.you.com/affiliates/
+affiliates[1] = Pending
+affiliates[2] = Active
+affiliates[3] = Hiatus
+
+;FORM INFORMATION
+num_startreg = 5
+num_startspc = 1
+num_startchoice = 2
+num_lvlchoice = 2
+num_lvlreg = 2
+num_lvlspc = 1
+num_maschoice = 2
+num_masreg = 3
+num_masspc = 1

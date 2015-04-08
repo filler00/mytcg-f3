@@ -1,0 +1,79 @@
+<?php require('check.php');
+require_once('settings.php'); 
+include('header.php');
+
+if(!$_SERVER['QUERY_STRING']) {
+	?>
+	<h1>Add a Card Deck</h1>
+	Use this form to add a card deck to the database. Use the <a href="edit_cards.php">edit</a> form to update information for existing card decks.
+	<br /><br />
+	<form method="post" action="add_cards.php?added">
+	<input type="hidden" name="masters" value="None" />
+	<table>
+	<tr><td><b>Filename:</b></td><td><input type="text" name="filename" /></td></tr>
+	<tr><td><b>Deck Name:</b></td><td><input type="text" name="deckname" /></td></tr>
+	<tr><td><b>Description:</b></td><td><input type="text" name="description" /></td></tr>
+	<tr><td><b>Category:</b></td><td><select name="category">
+	<option value="">-----</option>
+	<?php
+	for($i=1; $i<=$num_categories; $i++) {
+		echo "<option value=\"$i\">$category[$i]</option>\n";
+	}
+	?>
+	</select></td></tr>
+	<tr><td><b>Count:</b></td><td><input type="text" name="count" value="" /></td></tr>
+	<tr><td><b>Worth:</b></td><td><input type="text" name="worth" value="" /></td></tr>
+	<tr><td><b>Puzzle?</b></td><td><select name="puzzle">
+	<option value="yes">Yes</option>
+	<option value="no">No</option>
+	</select></td></tr>
+	<tr><td><b>Masterable?</b></td><td><select name="masterable">
+	<option value="">-----</option>
+	<option value="Yes">Yes</option>
+	<option value="No">No</option>
+	</select></td></tr>
+	<tr><td>&nbsp;</td><td><input type="submit" name="submit" value=" Add! " /></td></tr>
+	</table>
+	</form>
+	<?php
+}
+
+elseif($_SERVER['QUERY_STRING']=="added") {
+	if (!isset($_POST['submit']) || $_SERVER['REQUEST_METHOD'] != "POST") {	    exit("<p>You did not press the submit button; this page should not be accessed directly.</p>");	}
+	else {	    $exploits = "/(content-type|bcc:|cc:|document.cookie|onclick|onload|javascript|alert)/i";	    $profanity = "/(beastial|bestial|blowjob|clit|cum|cunilingus|cunillingus|cunnilingus|cunt|ejaculate|fag|felatio|fellatio|fuck|fuk|fuks|gangbang|gangbanged|gangbangs|hotsex|jism|jiz|kock|kondum|kum|kunilingus|orgasim|orgasims|orgasm|orgasms|phonesex|phuk|phuq|porn|pussies|pussy|spunk|xxx)/i";	    $spamwords = "/(viagra|phentermine|tramadol|adipex|advai|alprazolam|ambien|ambian|amoxicillin|antivert|blackjack|backgammon|texas|holdem|poker|carisoprodol|ciara|ciprofloxacin|debt|dating|porn)/i";	    $bots = "/(Indy|Blaiz|Java|libwww-perl|Python|OutfoxBot|User-Agent|PycURL|AlphaServer)/i";	    if (preg_match($bots, $_SERVER['HTTP_USER_AGENT'])) {	        exit("<h1>Error</h1>\nKnown spam bots are not allowed.");	    }	    foreach ($_POST as $key => $value) {	        $value = trim($value);	        if (empty($value)) {	            exit("<h1>Error</h1>\nAll fields are required. Please go back and complete the form.");	        }
+	        elseif (preg_match($exploits, $value)) {	            exit("<h1>Error</h1>\nExploits/malicious scripting attributes aren't allowed.");	        }
+	        elseif (preg_match($profanity, $value) || preg_match($spamwords, $value)) {	            exit("<h1>Error</h1>\nThat kind of language is not allowed through this form.");	        }	        $_POST[$key] = stripslashes(strip_tags($value));	    }
+	    	    $filename = escape_sql(CleanUp($_POST['filename']));
+	    $deckname = escape_sql(CleanUp($_POST['deckname']));
+	    $puzzle = escape_sql(CleanUp($_POST['puzzle']));
+		$description = escape_sql(CleanUp($_POST['description']));
+		$category = escape_sql(CleanUp($_POST['category']));
+		$count = escape_sql(CleanUp($_POST['count']));
+		$worth = escape_sql(CleanUp($_POST['worth']));
+		$masterable = escape_sql(CleanUp($_POST['masterable']));
+		$masters = escape_sql(CleanUp($_POST['masters']));
+	
+		$insert = "INSERT INTO `$table_cards` (`id`, `filename`, `deckname`, `puzzle`, `description`, `category`, `count`, `worth`, `masterable`, `masters`) VALUES ('', '$filename', '$deckname', '$puzzle', '$description', '$category', '$count', '$worth', '$masterable', '$masters')";	    if (mysql_query($insert, $connect)) {
+	        echo "<h1>Success</h1>\n";
+	        echo "The card deck was successfully added to the database.\n";
+	        echo "Want to <a href=\"add_cards.php\">add</a> another?";	    	$getdata = mysql_query("SELECT * FROM `$table_upcoming` WHERE description='$description'");
+	    	$num_rows = mysql_numrows($getdata);
+	    	if($num_rows==0) {
+	    		echo "";
+	    	}
+	    	else {
+	    		$delete = "DELETE FROM `$table_upcoming` WHERE description='$description'";
+	    		if(mysql_query($delete, $connect)) {
+	    			echo "<br />\n";
+	    			echo "The card deck was deleted from the upcoming list.";
+	    		}
+	    		else {
+	    			echo "<br />\n";
+	    			echo "There was an error and the card deck could not be deleted from the upcoming list.<br />\n";
+	    			die("Error:". mysql_error());
+	    		}
+	    	}	    }
+	    else {
+	    	echo "<h1>Error</h1>\n";	        echo "Sorry, there was an error and the card deck was not added.<br />\n";
+	        die("Error:". mysql_error());	    }	}
+}include('footer.php'); ?>

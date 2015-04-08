@@ -1,0 +1,49 @@
+<?php
+
+if($randtype=="regular") {
+	$query="SELECT * FROM `$table_cards` WHERE worth='1' ORDER BY RAND() LIMIT 1";
+	$result=mysql_query($query);
+
+	while($row=mysql_fetch_assoc($result)) {
+		$name=stripslashes($row['filename']);
+		echo "$name" . $digits[array_rand($digits,1)] . "";
+	}
+}
+
+elseif($randtype=="special") {
+	$query="SELECT * FROM `$table_cards` WHERE worth='2' ORDER BY RAND() LIMIT 1";
+	$result=mysql_query($query);
+
+	while($row=mysql_fetch_assoc($result)) {
+		$name=stripslashes($row['filename']);
+		echo "$name" . $digits_spc[array_rand($digits_spc,1)] . "";
+	}
+}
+
+elseif($randtype=="member") {
+	$query="SELECT * FROM `$table_members` WHERE membercard='Yes' ORDER BY RAND() LIMIT 1";
+	$result=mysql_query($query);
+
+	while($row=mysql_fetch_assoc($result)) {
+		$name=stripslashes($row['name']);
+		echo "$mcprefix$name";
+	}
+}
+
+/*
+To add a type of randomizer (ie. you want just the cards from a certain category), include the following code OUTSIDE these comments FOR EACH RANDOMIZER TYPE. Make sure this code is AFTER the if statement at the top and BEFORE the else statement below!
+elseif($randtype=="NAME") {
+	$query="SELECT * FROM `$table_cards` WHERE category='CATNUM' ORDER BY RAND() LIMIT 1";
+	$result=mysql_query($query);
+
+	while($row=mysql_fetch_assoc($result)) {
+		$name=stripslashes($row['filename']);
+		echo "$name" . $digits[array_rand($digits,1)] . "";
+	}
+}
+*/
+
+else {
+	echo "Your card cannot be displayed";
+}
+?>

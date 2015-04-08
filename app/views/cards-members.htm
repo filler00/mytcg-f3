@@ -1,0 +1,21 @@
+<h1>Cards > Members</h1>
+
+<table class="table">
+	<tbody>
+		<tr>
+			<td><img src="{{ @tcgcardurl }}member00.{{ @ext }}" alt="Filler Card"></td>
+			<td>
+				<strong>Deck Name:</strong> Members (member)
+				<br><strong>Card Count:</strong> {{ count(@members) }}
+				<br><strong>Card Worth:</strong> 0
+				<br><strong>Masterable?:</strong> No
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="text-center">
+	<repeat group="{{ @members }}" value="{{ @member }}">
+			<img src="{{ @tcgcardurl }}mc-{{ @member.name }}.{{ @ext }}">
+	</repeat>
+</div>
