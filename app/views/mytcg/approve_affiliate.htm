@@ -1,36 +1,0 @@
-<?php require('check.php');
-require_once('settings.php'); 
-include('header.php');
-
-$id=$_GET['id'];
-$select=mysql_query("SELECT * FROM `$table_affiliates` WHERE `id`=$id");
-while($row=mysql_fetch_assoc($select)) {
-	$update = "UPDATE `$table_affiliates` SET `status`='Active' WHERE `id`='$row[id]'";
-	$recipient = "$row[email]";
-	$subject = "$tcgname: Affiliate Approved!";
-			
-	$message = "Thank you for affiliating with $tcgname! Your application has been approved.\n\n";
-	$message .= "-- $tcgowner\n";
-	$message .= "$tcgname: $tcgurl\n";
-		
-	$headers = "From: $tcgname <$tcgemail> \n";
-	$headers .= "Reply-To: $tcgname <$tcgemail>";	    	if (mail($recipient,$subject,$message,$headers)) {
-	    		if(mysql_query($update, $connect)) {		    	    echo "<h1>Success</h1>\n";
-		    	    echo "$row[name] has been successfully emailed and has been updated in the database.";
-	    		}
-	    		else {
-	    			echo "<h1>Success</h1>\n";
-	    			echo "$row[name] has been successfully emailed but has not be updated in the database. Please use the edit form from the <a href=\"affiliates.php\">affiliates</a> page to update their status.";
-	    		}
-	    	}
-	    	else {
-	    		if(mysql_query($update, $connect)) {
-	    			echo "<h1>Success</h1>\n";
-	    			echo "$row[name] has been updated in the database but has not be emailed. Please send them an email to let them know they have been approved.";
-	    		}
-	    		else {
-		    		echo "<h1>Error</h1>\n";		    	    echo "Sorry, there was an error and the email could not be sent to $row[name] @ $row[email]. They also were not updated in the database. Please send them an email to let them know they have been approved and use the edit form from the <a href=\"affiliates.php\">affiliates</a> page to update their status.";
-	    		}
-	    	}
-}
-include('footer.php'); ?>

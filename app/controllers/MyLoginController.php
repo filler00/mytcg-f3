@@ -1,5 +1,5 @@
 <?php
-class MyLoginController extends Controller {
+class MyLoginController extends AdminController {
 	public function index()
 	{
 		$this->f3->set('SESSION.flash',array());

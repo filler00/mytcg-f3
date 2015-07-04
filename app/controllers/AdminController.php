@@ -2,7 +2,7 @@
 class AdminController {
 	protected $f3;
 	protected $db;
-	protected $auth;
+	//protected $auth;
 	function beforeRoute() {
 		new Session();
 		
@@ -20,7 +20,7 @@ class AdminController {
 			$f3->get('db_password')
 		);
 		$user = new \DB\SQL\Mapper($db, 'members');
-		$this->auth = new \Auth($user, array('id'=>'name', 'pw'=>'password'));
+		//$this->auth = new \Auth($user, array('id'=>'name', 'pw'=>'password'));
 		$this->f3 = $f3;
 		$this->db = $db;
 	}

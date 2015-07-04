@@ -1,34 +1,90 @@
-<?php require('check.php'); 
-require_once('settings.php');
-include('header.php'); ?>
-<h1>Affiliates</h1>
-&raquo; Do you want to <a href="add_affiliate.php">add an affiliate</a>?<br />
-&raquo; Need to email <a href="email_allaffiliates.php">all affiliates</a>?
-<br /><br />
+<h1>
+	Affiliates
+	<!--button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#email-affiliates-modal"><i class="fa fa-envelope"></i> &nbsp; Email All</button-->
+	<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#new-affiliate-modal"><i class="fa fa-plus"></i> &nbsp; Add New Affiliate</button>
+</h1>
 
-<?php
-for($i=1; $i<=$num_affiliates; $i++) {
-	$select = mysql_query("SELECT * FROM `$table_affiliates` WHERE `status`='$affiliates[$i]' ORDER BY `name`");
-	$count = mysql_num_rows($select);
-	echo "<h1>$affiliates[$i] Affiliates</h1>\n";
+<repeat group="{{ @affiliates_status }}" value="{{ @status }}" key="{{ @index }}">
+	<h2>{{ @status }}</h2>
 	
-	if($count==0) {
-		echo "There are currently no affiliates in this category.\n";
-		echo "<br /><br />\n\n";
-	}
-	else {
-		echo "<table width=\"100%\">\n";
-		echo "<tr><td width=\"50%\"><b>Action</b></td><td width=\"25%\"><b>Affiliate</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
-		while($row=mysql_fetch_assoc($select)) {
-			echo "<tr><td><a href=\"edit_affiliate.php?id=$row[id]\">Edit</a> | <a href=\"delete_affiliate.php?id=$row[id]\">Delete</a>";
-			if($row[status]=="Pending") {
-				echo " | <a href=\"approve_affiliate.php?id=$row[id]\">Approve</a>";
-			}
-			echo "</td><td><a href=\"$row[url]\" target=\"_blank\"><img src=\"$buttonurl$row[button]\" title=\"$row[tcgname]\" alt=\"$row[tcgname]\"></a></td><td><a href=\"email_affiliate.php?id=$row[id]\">Email?</a></td></tr>\n";
-		}
-		echo "</table>\n";
-		echo "<br /><br />\n\n";
-	}
-}
+	<!-- Display affiliates with status: {{ @status }} -->
+	<check if="{{ count(@affiliates[@status]) > 0 }}">
+		<true>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Affiliate</th><th>Name</th><th>Owner</th><th>Email</th><th>Manage</th>
+					</tr>
+				</thead>
+				<tbody>
+				<repeat group="{{ @affiliates[@status] }}" value="{{ @affiliate }}">
+					<tr>
+						<td><a href="{{ @affiliate.url }}" target="_blank"><img src="{{ @affiliate.button }}"></a></td>
+						<td>{{ @affiliate.tcgname }}</td>
+						<td>{{ @affiliate.name }}</td>
+						<td><a href="mailto:{{ @affiliate.email }}">{{ @affiliate.email }}</a></td>
+						<td>
+							<div class="btn-group" role="group">
+								<form method="post">
+									<input type="hidden" name="id" value="{{ @affiliate.id }}">
+									<button type="button" class="btn btn-default" data-affiliate-id="{{ @affiliate.id }}" data-toggle="modal" data-target="#edit-affiliate-modal"><i class="fa fa-pencil"></i></button>
+									<button class="btn btn-danger" type="submit" name="delete-affiliate-submit"><i class="fa fa-times"></i></button>
+									<check if="{{ @status == 'Pending' }}">
+										<button class="btn btn-success" type="submit" name="approve-affiliate-submit"><i class="fa fa-check"></i></button>
+									</check>
+								</form>
+							</div>
+						</td>
+					</tr>
+				</repeat>
+				</tbody>
+			</table>
+		</true>
+		<false>
+			<p><em>No affiliates!</em></p>
+		</false>
+	</check>
+	
+</repeat>
 
-include('footer.php'); ?>
+<div class="modal fade" id="new-affiliate-modal" tabindex="-1" role="dialog" aria-labelledby="new-affiliate-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="new-affiliate-modal-label">Add New Affiliate</h4>
+			</div>
+			<div class="modal-body">
+				
+				<include href="app/views/mytcg/affiliates_add_form.htm" />
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="new-affiliate-submit" form="new-affiliate-form">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="edit-affiliate-modal" tabindex="-1" role="dialog" aria-labelledby="edit-affiliate-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="edit-affiliate-modal-label">Edit Affiliate</h4>
+			</div>
+			<div class="modal-body">
+				
+				<p>Loading...</p>
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="edit-affiliate-submit" form="edit-affiliate-form">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>

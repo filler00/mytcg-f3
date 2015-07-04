@@ -27,11 +27,11 @@ class Affiliates extends DB\SQL\Mapper {
 		$this->copyfrom('POST',function($val) {
 			return array_intersect_key($val, array_flip(array('name','email','tcgname','url','button','status')));
 		});
-		$this->update();
+		return $this->update();
 	}
 	public function delete($id)
 	{
 		$this->load(array('id=?',$id));
-		$this->erase();
+		return $this->erase();
 	}
 }
