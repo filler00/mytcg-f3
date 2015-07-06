@@ -1,0 +1,44 @@
+<h1>Cards</h1>
+<div class="text-center">
+	<a href="{{ @adminurl }}cards/add" class="btn btn-primary">New Deck</a>
+</div>
+<check if="{{ count(@category) > 0 }}">
+	<true>
+		<repeat group="{{ @category }}" value="{{ @cat }}" key="{{ @index }}">
+			<h2>{{ @cat }}</h2>
+			
+			<!-- Display decks from {{ @cat }} -->
+			<check if="{{ count(@decks[@index]) > 0 }}">
+				<true>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Deck Name</th>
+								<th>Description</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody class="table-hover">
+						<repeat group="{{ @decks[@index] }}" value="{{ @card }}">
+							<tr>
+								<td><a href="{{ @tcgurl }}cards/view/{{ @card.filename }}">{{ @card.deckname }}</a></td>
+								<td>{{ @card.description }}</td>
+								<td>
+								<a href="{{ @tcgurl }}mytcg/cards/edit/{{ @card.id }}" class="btn btn-primary">Edit</a> 
+								<a href="{{ @tcgurl }}mytcg/cards/delete/{{ @card.id }}" class="btn btn-danger">Delete</a> </td>
+							</tr>
+						</repeat>
+						</tbody>
+					</table>
+				</true>
+				<false>
+					<p><em>There are no cards in this category!</em></p>
+				</false>
+			</check>
+			
+		</repeat>
+	</true>
+	<false>
+		<p><em>There are no categories!</em></p>
+	</false>
+</check>
