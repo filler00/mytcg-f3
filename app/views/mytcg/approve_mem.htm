@@ -1,39 +1,0 @@
-<?php require('check.php');
-require_once('settings.php'); 
-include('header.php');
-
-$id=$_GET['id'];
-$select=mysql_query("SELECT * FROM `$table_members` WHERE `id`=$id");
-while($row=mysql_fetch_assoc($select)) {
-	$update = "UPDATE `$table_members` SET `status`='Active', `level`='1' WHERE `id`='$row[id]'";
-	$recipient = "$row[email]";
-	$subject = "$tcgname: Approved!";
-			
-	$message = "Thank you for joining $tcgname! You have been approved by $tcgowner and can now begin to play games and take freebies. You should have received your starter pack already on the site and in your email. You do not need to reply to this email.\n\n";
-	$message .= "Now that you are an active member, there are lots of fun things to do. Check out the interactive section for the current game rounds, submit a member card, or post your wishlist in the forum!\n\n";
-	$message .= "Don't forget that all members should be active at least once per month. If you need to go on hiatus, please let us know! $tcgname does not delete members from the member list for inactivity, however any member who is inactive for two months will be listed as inactive and must submit an update form to reactive themselves.\n\n";
-	$message .= "That should be everything you need to know! Have any questions? Make sure to look through the Information page and if you still can't find the answer, shoot us an email! Thanks again for joining and happy trading!\n\n";
-	$message .= "-- $tcgowner\n";
-	$message .= "$tcgname: $tcgurl\n";
-		
-	$headers = "From: $tcgname <$tcgemail> \n";
-	$headers .= "Reply-To: $tcgname <$tcgemail>";	    	if (mail($recipient,$subject,$message,$headers)) {
-	    		if(mysql_query($update, $connect)) {		    	    echo "<h1>Success</h1>\n";
-		    	    echo "$row[name] has been successfully emailed and has been updated in the database.";
-	    		}
-	    		else {
-	    			echo "<h1>Success</h1>\n";
-	    			echo "$row[name] has been successfully emailed but has not be updated in the database. Please use the edit form from the <a href=\"members.php\">members</a> page to update their status.";
-	    		}
-	    	}
-	    	else {
-	    		if(mysql_query($update, $connect)) {
-	    			echo "<h1>Success</h1>\n";
-	    			echo "$row[name] has been updated in the database but has not be emailed. Please send them an email to let them know they have been approved.";
-	    		}
-	    		else {
-		    		echo "<h1>Error</h1>\n";		    	    echo "Sorry, there was an error and the email could not be sent to $row[name] @ $row[email]. They also were not updated in the database. Please send them an email to let them know they have been approved and use the edit form from the <a href=\"members.php\">members</a> page to update their status.";
-	    		}
-	    	}
-}
-include('footer.php'); ?>
