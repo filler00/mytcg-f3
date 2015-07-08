@@ -1,0 +1,6 @@
+<h1>Delete {{ @news.title }}</h1>
+<div>
+	Really delete {{ @news.title }} forever?<br>
+	<a href="{{ @tcgurl }}mytcg/news/delete/{{ @news.id }}?execute" class="btn btn-danger">Delete</a>
+	<a href="{{ @tcgurl }}mytcg/news" class="btn btn-default">Back</a>
+</div>

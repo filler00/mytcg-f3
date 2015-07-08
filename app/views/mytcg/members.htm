@@ -1,68 +1,103 @@
-<?php require('check.php'); 
-require_once('settings.php');
-include('header.php'); ?>
 <h1>Members</h1>
-&raquo; Do you want to <a href="add_mem.php">add a member</a>?<br />
-&raquo; Need to email <a href="email_allmem.php">all members</a>?
-<br /><br />
 
-<h1>Pending</h1>
-<?php
-$select2 = mysql_query("SELECT * FROM `$table_members` WHERE `status`='Pending' ORDER BY `name`");
-$count2 = mysql_num_rows($select2);
+<check if="{{ count(@pending) > 0 }}">
+	<true>
+		<h2>Pending</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th><th></th><th></th>
+				</tr>
+			</thead>
+			<tbody class="table-hover">
+			<repeat group="{{ @pending }}" value="{{ @member }}">
+				<tr>
+					<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+					<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+					<td>{{ @member.birthday }}</td>
+					<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+					<td>
+					<a href="{{ @tcgurl }}mytcg/members/activate/{{ @member.id }}" class="btn btn-warning">Approve</a>
+					<a href="{{ @tcgurl }}mytcg/members/edit/{{ @member.id }}" class="btn btn-primary">Edit</a> 
+					<a href="{{ @tcgurl }}mytcg/members/delete/{{ @member.id }}" class="btn btn-danger">Delete</a> 
+					</td>
+				</tr>
+			</repeat>
+			</tbody>
+		</table>
+	</true>
+	<false>
+	</false>
+</check>
 
-if($count2==0) {
-	echo "<center>There are currently no members at this level.</center>\n";
-	echo "<br /><br />\n\n";
-}
-else {
-	echo "<table width=\"100%\">\n";
-	echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
-	while($row2=mysql_fetch_assoc($select2)) {
-		echo "<tr><td><a href=\"edit_mem.php?id=$row2[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row2[id]\">Del.</a> | <a href=\"approve_mem.php?id=$row2[id]\">App.</a></td><td>$row2[name]</td><td><a href=\"$row2[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row2[id]\">Email?</a></td></tr>\n";
-	}
-	echo "</table>\n";
-	echo "<br /><br />\n\n";
-}
+<check if="{{ count(@level) > 0 }}">
+	<true>
+		<repeat group="{{ @level }}" value="{{ @lvlname }}" key="{{ @index }}">
+			<h2>{{ @lvlname }}</h2>
+			
+			<!-- Display members at level: {{ @lvlname }} -->
+			<check if="{{ count(@levels[@index]) > 0 }}">
+				<true>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th><th></th>
+							</tr>
+						</thead>
+						<tbody class="table-hover">
+						<repeat group="{{ @levels[@index] }}" value="{{ @member }}">
+							<tr>
+								<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+								<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+								<td>{{ @member.birthday }}</td>
+								<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+								<td>
+								<a href="{{ @tcgurl }}mytcg/members/edit/{{ @member.id }}" class="btn btn-primary">Edit</a> 
+								<a href="{{ @tcgurl }}mytcg/members/delete/{{ @member.id }}" class="btn btn-danger">Delete</a> 
+								</td>
+							</tr>
+						</repeat>
+						</tbody>
+					</table>
+				</true>
+				<false>
+					<p><em>There are no members at this level!</em></p>
+				</false>
+			</check>
+			
+		</repeat>
+	</true>
+	<false>
+		<p><em>There are no levels! D:</em></p>
+	</false>
+</check>
 
-for($i=1; $i<=$num_levels; $i++) {
-	$levelnum = $i;
-	$select = mysql_query("SELECT * FROM `$table_members` WHERE `level`='$levelnum' AND `status`='Active' ORDER BY `name`");
-	$count = mysql_num_rows($select);
-	echo "<h1>$level[$i]</h1>\n";
-	
-	if($count==0) {
-		echo "<center>There are currently no members at this level.</center>\n";
-		echo "<br /><br />\n\n";
-	}
-	else {
-		echo "<table width=\"100%\">\n";
-		echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
-		while($row=mysql_fetch_assoc($select)) {
-			echo "<tr><td><a href=\"edit_mem.php?id=$row[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row[id]\">Delete</a></td><td>$row[name]</td><td><a href=\"$row[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row[id]\">Email?</a></td></tr>\n";
-		}
-		echo "</table>\n";
-		echo "<br /><br />\n\n";
-	}
-}
-?>
-
-<h1>Troubled</h1>
-<?php
-$select3 = mysql_query("SELECT * FROM `$table_members` WHERE `status`='Hiatus' ORDER BY `name`");
-$count3 = mysql_num_rows($select3);
-
-if($count3==0) {
-	echo "<center>There are currently no members at this level.</center>\n";
-	echo "<br /><br />\n\n";
-}
-else {
-	echo "<table width=\"100%\">\n";
-	echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"25%\"><b>Name</b></td><td width=\"25%\"><b>URL</b></td><td width=\"25%\"><b>Email</b></td></tr>\n";
-	while($row3=mysql_fetch_assoc($select3)) {
-		echo "<tr><td><a href=\"edit_mem.php?id=$row3[id]\">Edit</a> | <a href=\"delete_mem.php?id=$row3[id]\">Delete</a> | <a href=\"approve_mem.php?id=$row3[id]\">Approve</a></td><td>$row3[name]</td><td><a href=\"$row3[url]\" target=\"_blank\">http://</a></td><td><a href=\"email_mem.php?id=$row3[id]\">Email?</a></td></tr>\n";
-	}
-	echo "</table>\n";
-	echo "<br /><br />\n\n";
-}
-include('footer.php'); ?>
+<h2>Hiatus</h2>
+<check if="{{ count(@hiatus) > 0 }}">
+	<true>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th><th></th>
+				</tr>
+			</thead>
+			<tbody class="table-hover">
+			<repeat group="{{ @hiatus }}" value="{{ @member }}">
+				<tr>
+					<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+					<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+					<td>{{ @member.birthday }}</td>
+					<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+					<td>
+					<a href="{{ @tcgurl }}mytcg/members/edit/{{ @member.id }}" class="btn btn-primary">Edit</a> 
+					<a href="{{ @tcgurl }}mytcg/members/delete/{{ @member.id }}" class="btn btn-danger">Delete</a> 
+					</td>
+				</tr>
+			</repeat>
+			</tbody>
+		</table>
+	</true>
+	<false>
+		<p><em>There are no members on hiatus!</em></p>
+	</false>
+</check>
