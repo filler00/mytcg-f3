@@ -19,9 +19,12 @@ class MyLoginController extends AdminController {
 		$this->f3->set('SESSION.flash',array());
 		$this->f3->scrub($_POST);
 		
-		if ( $this->f3->get('POST.username') == $this->f3->get('USER') && $this->f3->get('POST.password') == $this->f3->get('PASS') ) {
-			$this->f3->set('SESSION.adminID',$this->f3->get('USER'));
-			$this->f3->push('SESSION.flash',array('type'=>'success','msg'=>'Welcome back, ' . $this->f3->get('SESSION.adminID') . '!'));
+		if ( in_array(strtolower($this->f3->get('POST.username')), array_map('strtolower', $this->f3->get('admin_users'))) && $this->auth->login($this->f3->get('POST.username'),$this->f3->get('POST.password')) ) {
+			$members = new Members($this->db);
+			$this->f3->set('SESSION.adminID',$members->getByName($this->f3->get('POST.username'))->id);
+			$this->f3->set('SESSION.adminName',$members->getByName($this->f3->get('POST.username'))->name);
+				
+			$this->f3->push('SESSION.flash',array('type'=>'success','msg'=>'Welcome back, ' . $this->f3->get('SESSION.adminName') . '!'));
 			$this->f3->reroute('/mytcg');
 		} else {
 			$this->f3->push('SESSION.flash',array('type'=>'danger','msg'=>'Authentication failed. Please try again or contact us for assistance.'));

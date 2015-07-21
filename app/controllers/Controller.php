@@ -5,6 +5,14 @@ class Controller {
 	protected $auth;
 	function beforeRoute() {
 		new Session();
+		
+		// uncomment to make the user object available on each page when the user is signed in
+		/*
+		if ( $this->f3->exists('SESSION.userID')  ) {
+			$members = new Members($this->db);
+			$this->f3->set('user',$members->read(array('id=?', $this->f3->get('SESSION.userID') ),[])[0]);
+		}
+		*/
 	}
 	function afterRoute() {
 		$this->f3->clear('SESSION.flash');

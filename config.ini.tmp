@@ -1,7 +1,7 @@
 [globals]
 DEBUG = 0
 CACHE = TRUE
-AUTOLOAD = app/controllers/|app/models/
+LOGS = storage/logs/
 
 ;Database Config
 db_server = localhost
@@ -9,9 +9,8 @@ db_user = username
 db_password = password
 db_database = mytcg-f3
 
-;MyTCG Login Info
-USER = adminUser
-PASS = adminPass
+;MyTCG Admin Users
+admin_users[0] = admin
 
 ;Email Config
 tcgemail = tcg@yourdomain.com
@@ -29,6 +28,7 @@ tcgowner = Foo
 tcguri = /
 tcgurl = http://tcg.yourdomain.com/
 tcgcardurl = http://tcg.yourdomain.com/assets/img/cards/
+adminuri = /mytcg/
 adminurl = http://tcg.yourdomain.com/mytcg/
 width = 50px
 height = 75px

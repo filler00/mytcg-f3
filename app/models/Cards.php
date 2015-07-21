@@ -22,7 +22,7 @@ class Cards extends DB\SQL\Mapper {
 	public function add()
 	{
 		$this->copyfrom('POST',function($val) {
-			return array_intersect_key($val, array_flip(array('name','email','tcgname','url','button','status')));
+			return array_intersect_key($val, array_flip(array('filename','deckname','description','category','count','worth','masterable','masters','puzzle')));
 		});
 		return $this->save();
 	}
@@ -49,12 +49,14 @@ class Cards extends DB\SQL\Mapper {
 	public function edit($id)
 	{
 		$this->load(array('id=?',$id));
-		$this->copyFrom('POST');
-		$this->update();
+		$this->copyfrom('POST',function($val) {
+			return array_intersect_key($val, array_flip(array('filename','deckname','description','category','count','worth','masterable','masters','puzzle')));
+		});
+		return $this->update();
 	}
 	public function delete($id)
 	{
 		$this->load(array('id=?',$id));
-		$this->erase();
+		return $this->erase();
 	}
 }

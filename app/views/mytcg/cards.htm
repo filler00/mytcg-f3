@@ -1,44 +1,117 @@
 <h1>Cards</h1>
-<div class="text-center">
-	<a href="{{ @adminurl }}cards/add" class="btn btn-primary">New Deck</a>
+
+<div id="decks">
+	
+	<div class="row">
+		<div class="col-sm-8">
+			
+		</div>
+		<div class="col-sm-4">
+			<div class="input-group pull-right">
+				<input type="text" class="form-control search" placeholder="Search decks by name...">
+				<span class="input-group-btn">
+			        <button class="btn btn-primary" data-toggle="modal" data-target="#new-cards-modal"><i class="fa fa-plus"></i> &nbsp; New Deck</button>
+			    </span>
+			</div>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<!-- Display all decks -->
+	<check if="{{ count(@decks) > 0 }}">
+		<true>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Deck Name</th>
+						<th>Category</th>
+						<th>Description</th>
+						<th>Status</th>
+						<th>#/$</th>
+						<th>Manage</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+				<repeat group="{{ @decks }}" value="{{ @deck }}">
+					<tr class="{{ isset(@deck.filename) ? '' : 'warning' }}">
+						<check if="{{ isset(@deck.filename) }}">
+							<true>
+								<td class="deckname"><a href="{{ @tcgurl }}cards/view/{{ @deck.filename }}">{{ @deck.deckname }}</a></td>
+								<td>{{ @category[@deck.category] }}</td>
+								<td>{{ @deck.description }}</td>
+								<td>Released</td>
+								<td>{{ @deck.count }}/{{ @deck.worth }}</td>
+							</true>
+							<false>
+								<td class="deckname">{{ @deck.deckname }}</td>
+								<td>{{ @category[@deck.category] }}</td>
+								<td>{{ @deck.description }}</td>
+								<td>Upcoming</td>
+								<td>N/A</td>
+							</false>
+						</check>
+						<td>
+							<form method="post">
+								<input type="hidden" name="id" value="{{ @deck.id }}">
+								<input type="hidden" name="status" value="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}">
+								
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-xs btn-default" data-deck-status="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}" data-deck-id="{{ @deck.id }}" data-toggle="modal" data-target="#edit-cards-modal"><i class="fa fa-pencil"></i></button>
+									<button class="btn btn-xs btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to delete the {{ @deck.deckname }} deck? This action can't be undone." type="submit" name="delete-cards-submit"><i class="fa fa-times"></i></button>
+								</div>
+							</form>
+						</td>
+					</tr>
+				</repeat>
+				</tbody>
+			</table>
+		</true>
+		<false>
+			<p><em>You haven't added any decks yet!</em></p>
+		</false>
+	</check>
+
 </div>
-<check if="{{ count(@category) > 0 }}">
-	<true>
-		<repeat group="{{ @category }}" value="{{ @cat }}" key="{{ @index }}">
-			<h2>{{ @cat }}</h2>
+
+<div class="modal fade" id="new-cards-modal" tabindex="-1" role="dialog" aria-labelledby="new-cards-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="new-cards-modal-label">Add New Deck</h4>
+			</div>
+			<div class="modal-body">
+				
+				<include href="app/views/mytcg/cards_add_form.htm" />
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="new-cards-submit" form="new-cards-form">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="edit-cards-modal" tabindex="-1" role="dialog" aria-labelledby="edit-cards-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="edit-cards-modal-label">Edit Deck</h4>
+			</div>
+			<div class="modal-body">
+				
+				<p>Loading...</p>
 			
-			<!-- Display decks from {{ @cat }} -->
-			<check if="{{ count(@decks[@index]) > 0 }}">
-				<true>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Deck Name</th>
-								<th>Description</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody class="table-hover">
-						<repeat group="{{ @decks[@index] }}" value="{{ @card }}">
-							<tr>
-								<td><a href="{{ @tcgurl }}cards/view/{{ @card.filename }}">{{ @card.deckname }}</a></td>
-								<td>{{ @card.description }}</td>
-								<td>
-								<a href="{{ @tcgurl }}mytcg/cards/edit/{{ @card.id }}" class="btn btn-primary">Edit</a> 
-								<a href="{{ @tcgurl }}mytcg/cards/delete/{{ @card.id }}" class="btn btn-danger">Delete</a> </td>
-							</tr>
-						</repeat>
-						</tbody>
-					</table>
-				</true>
-				<false>
-					<p><em>There are no cards in this category!</em></p>
-				</false>
-			</check>
-			
-		</repeat>
-	</true>
-	<false>
-		<p><em>There are no categories!</em></p>
-	</false>
-</check>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="edit-cards-submit" form="edit-cards-form">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
