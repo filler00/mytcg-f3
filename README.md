@@ -1,5 +1,5 @@
 # Fat-Free MyTCG
-**MyTCG-f3** is a new project to rebuild and improve the features of the original MyTCG script in order to provide MyTCG users a more stable and secure TCG management option.
+**MyTCG-f3** was created to provide TCG owners and players a more stable and secure alternative to the original MyTCG script. It's open source, built with PHP on top of the Fat-Free Framework, and retains many of the features of its predecessor while optimizing and improving them.
 
 Features introduced in MyTCG-f3 include:
 
@@ -8,8 +8,11 @@ Features introduced in MyTCG-f3 include:
 * Parameterized queries & password_hash() for increased security
 * SwiftMailer integration. Simplifies the use of SMTP, HTML emails, and automatic multipart support for improved email deliverability
 * Semantic URLs
+* Permanent logs are default
+* Delegate admin access to multiple users
+* Streamlined plugin system
 * Supports Bootstrap styles out of the box (or you can just remove the included styles and templates to rock your own)
-* Lots of things have been re-organized and a few things removed to make things as clean and simple as possible!
+* Many things have been re-organized and a few things removed to make things as clean and simple as possible!
 
 ## Demo
 http://code.filler00.com/mytcg-f3/
