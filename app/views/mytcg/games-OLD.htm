@@ -1,0 +1,30 @@
+<?php require('check.php'); 
+require_once('settings.php');
+include('header.php'); ?>
+<h1>Games</h1>
+&raquo; Do you want to <a href="add_game.php">add a game</a>?
+<br /><br />
+
+<?php
+for($i=1; $i<=$num_gamecats; $i++) {
+	$group = $gamecat[$i];
+	$select = mysql_query("SELECT * FROM `$table_games` WHERE `category`='$group' ORDER BY `name`");
+	$count = mysql_num_rows($select);
+	echo "<h1>$group</h1>\n";
+	
+	if($count==0) {
+		echo "<center>There are currently no games in this group.</center>\n";
+		echo "<br /><br />\n\n";
+	}
+	else {
+		echo "<table width=\"100%\">\n";
+		echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"50%\"><b>Description</b></td><td width=\"25%\"><b>Updated</b></td></tr>\n";
+		while($row=mysql_fetch_assoc($select)) {
+			$name = stripslashes($row[name]);
+			echo "<tr><td><a href=\"edit_game.php?id=$row[id]\">Edit</a> | <a href=\"delete_game.php?id=$row[id]\">Delete</a></td><td>$name</td><td>$row[updated]</td></tr>\n";
+		}
+		echo "</table>\n";
+		echo "<br /><br />\n\n";
+	}
+}
+include('footer.php'); ?>

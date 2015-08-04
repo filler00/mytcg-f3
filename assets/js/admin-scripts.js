@@ -1,3 +1,6 @@
+// initialize tooltips
+$('[data-toggle="tooltip"]').tooltip({container: 'body'});
+
 // handle confirmation alerts
 $('.trigger-alert').on('click', function(e, verified){
     if ( !verified ) {
@@ -15,12 +18,14 @@ $('.trigger-alert').on('click', function(e, verified){
 });
 
 /********** AFFILIATES **************************/
+
 // edit affiliates form modal
 $('#edit-affiliate-modal').on('show.bs.modal', function (e) {
 	$( "#edit-affiliate-modal .modal-body" ).load('affiliates/edit/' + e.relatedTarget.dataset.deckId);
 })
 
 /********** CARDS **************************/
+
 // toggle upcoming/released deck fields
 function statusToggle(form) {
     if ( form.find('[name=status]').val() == "Upcoming" ) {
@@ -58,3 +63,53 @@ if ( $('#new-cards-form').length > 0 ) {
 
 // deck search
 var deckList = new List('decks', { valueNames: [ 'deckname' ] });
+
+/********** GAMES **************************/
+
+// game search
+var gameList = new List('games', { valueNames: [ 'gamename' ] });
+
+// edit games form modal
+$('#edit-game-modal').on('show.bs.modal', function (e) {
+	$( "#edit-game-modal .modal-body" ).load('games/edit/' + e.relatedTarget.dataset.gameId, function(){
+	    
+	    // initialize tooltips
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+
+	    // disable/enable schdule fields in edit game form
+        if ( $('#edit-game-form [name="schedule-day"]').val() === 'null' ) {
+            $('#edit-game-form [name="schedule-frequency"]').prop('disabled',true);
+        }
+
+	    $('#edit-game-form [name="schedule-day"]').on('change', function(){
+            var form = $(this).closest('form');
+            
+            if ( $(this).val() === 'null' ) {
+                form.find('[name="schedule-frequency"]').prop('disabled',true);
+            }
+            else {
+                form.find('[name="schedule-frequency"]').prop('disabled',false);
+            }
+        });
+	    
+	});
+})
+
+// disable/enable schdule fields in new game form
+if ( $('#new-game-form [name="schedule-day"]').val() === 'null' ) {
+    $('#new-game-form [name="schedule-frequency"]').prop('disabled',true);
+    $('#new-game-form [name="start-date"]').prop('disabled',true);
+}
+    
+$('#new-game-form [name="schedule-day"]').on('change', function(){
+    var form = $(this).closest('form');
+    
+    if ( $(this).val() === 'null' ) {
+        form.find('[name="schedule-frequency"]').prop('disabled',true);
+        form.find('[name="start-date"]').prop('disabled',true);
+    }
+    else {
+        form.find('[name="schedule-frequency"]').prop('disabled',false);
+        form.find('[name="start-date"]').prop('disabled',false);
+    }
+});

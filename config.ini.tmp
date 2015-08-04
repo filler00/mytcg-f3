@@ -2,12 +2,14 @@
 DEBUG = 0
 CACHE = TRUE
 LOGS = storage/logs/
+AUTOLOAD = "app/; vendor/;"
 
 ;Database Config
 db_server = localhost
 db_user = username
 db_password = password
 db_database = mytcg-f3
+db_port = 3306
 
 ;MyTCG Admin Users
 admin_users[0] = admin
@@ -17,6 +19,8 @@ tcgemail = tcg@yourdomain.com
 noreplyemail = noreply@yourdomain.com
 emailtransport = mail
 
+;SMTP Settings
+;only if you've set 'emailtransport' to 'smtp'
 smtpserver = smtp.mailgun.org
 smtpport = 587
 smtpuser = postmaster@yourdomain.com
@@ -33,6 +37,9 @@ adminurl = http://tcg.yourdomain.com/mytcg/
 width = 50px
 height = 75px
 ext = gif
+
+;Theme Settings
+theme = classic
 
 ;TCG Level Config
 level[1] = Level 1
@@ -69,9 +76,9 @@ gamecat[3] = Monthly
 ;AFFILIATE INFORMATION
 buttonsize = 88x31
 buttonurl = http://tcg.you.com/affiliates/
-affiliates[1] = Pending
-affiliates[2] = Active
-affiliates[3] = Hiatus
+affiliates_status[1] = Pending
+affiliates_status[2] = Active
+affiliates_status[3] = Hiatus
 
 ;FORM INFORMATION
 num_startreg = 5
