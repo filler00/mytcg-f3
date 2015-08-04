@@ -4,7 +4,7 @@ namespace Controllers\Core;
 
 use Models\Core\Members;
 use Models\Core\Cards;
-use Vendor\Filler00\Mailer;
+use Filler00\Mailer;
 use Template;
 
 class MembersController extends Controller {

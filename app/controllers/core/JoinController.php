@@ -4,7 +4,7 @@ namespace Controllers\Core;
 
 use Models\Core\Cards;
 use Models\Core\Members;
-use Vendor\Filler00\Mailer;
+use Filler00\Mailer;
 use Template;
 
 class JoinController extends Controller {

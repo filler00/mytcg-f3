@@ -3,7 +3,7 @@
 namespace Controllers\Core;
 
 use Models\Core\Members;
-use Vendor\Filler00\Mailer;
+use Filler00\Mailer;
 use Template;
 
 class ContactController extends Controller {
