@@ -76,9 +76,9 @@ gamecat[3] = Monthly
 ;AFFILIATE INFORMATION
 buttonsize = 88x31
 buttonurl = http://tcg.you.com/affiliates/
-affiliates[1] = Pending
-affiliates[2] = Active
-affiliates[3] = Hiatus
+affiliates_status[1] = Pending
+affiliates_status[2] = Active
+affiliates_status[3] = Hiatus
 
 ;FORM INFORMATION
 num_startreg = 5

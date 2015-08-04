@@ -111,7 +111,9 @@ class GamesController extends Controller {
 		$games = $this->games->all();
 		
 		// import Jig data
-		$gameData = $this->getData('all');
+		if ( $this->games->count() > 0 ) {
+			$gameData = $this->getData('all');
+		} else { $gameData = []; }
 
 		$this->f3->set('games', $games);
 		$this->f3->set('gameData', $gameData);
