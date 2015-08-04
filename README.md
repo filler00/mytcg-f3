@@ -24,3 +24,6 @@ Or if you know what you're doing, you can download the very latest version from 
 
 ## Configuration
 Once you've downloaded MyTCG-f3 and placed the files in your TCG project's directory, the first thing that you should do is change the default settings in your configuration file. Locate the `config.ini.tmp` file (it should in the project's root directory) and rename it to `config.ini`. This is your TCG's global configuration file which contains your database and administrator credentials, email settings, and other global variables that you can use to customize your TCG.
+
+## Documentation & Support
+Detailed documentation is available on the [MyTCG-f3 GitHub Wiki](https://github.com/tooblue/mytcg-f3/wiki). Get support or report issues via the [GitHub Issue Tracker](https://github.com/tooblue/mytcg-f3/issues) or the [MyTCG-f3 Support Forums](https://forum.filler00.com/conversations/mytcg-f3).

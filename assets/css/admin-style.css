@@ -104,8 +104,7 @@ body {
 	border-radius: 50%;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+/* Sticky footer styles -------------------------------------------------- */
 
 html {
 	position: relative;
@@ -131,6 +130,39 @@ body {
 	margin: 20px 0;
 }
 
+
+/* Dashboard styles -------------------------------------------------- */
+
+#navbar .version-stable {
+	color: #62BD75;
+}
+
+#navbar .version-stable:before {
+	font-family: "FontAwesome";
+	content: "\f111";
+	margin-right: 5px;
+}
+
+#navbar .version-unknown {
+	color: #ECB53F;
+}
+
+#navbar .version-unknown:before {
+	font-family: "FontAwesome";
+	content: "\f059";
+	margin-right: 5px;
+}
+
+#navbar .version-warning {
+	color: #FF7676;
+}
+
+#navbar .version-warning:before {
+	font-family: "FontAwesome";
+	content: "\f06a";
+	margin-right: 5px;
+}
+
 .dashboard-stats .h2 {
 	margin: 10px;
 }
@@ -149,4 +181,24 @@ body {
 
 .dashboard-stats .text-info {
   color: #4C99BE;
+}
+
+#admin-notes {
+	min-width: 100%;
+	min-height: 250px;
+	padding: 20px;
+	border: 1px solid #F2F1DD;
+	background-color: #fffeee;
+	box-shadow: 1px 1px 3px #ddd;
+}
+
+/* Games styles -------------------------------------------------- */ 
+
+.modal-header .nav-tabs {
+    border-bottom: none;
+    margin: -15px 0px;
+}
+
+#game-rounds .panel-heading {
+	cursor: pointer;
 }

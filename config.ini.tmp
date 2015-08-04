@@ -2,12 +2,14 @@
 DEBUG = 0
 CACHE = TRUE
 LOGS = storage/logs/
+AUTOLOAD = "app/controllers/; app/models/; vendor/filler00/"
 
 ;Database Config
 db_server = localhost
 db_user = username
 db_password = password
 db_database = mytcg-f3
+db_port = 3306
 
 ;MyTCG Admin Users
 admin_users[0] = admin

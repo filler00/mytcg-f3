@@ -1,84 +1,24 @@
 <?php
 
-$f3->set('AUTOLOAD','app/controllers/; app/models/; vendor/filler00/');
+// Admin panel routes
+$f3->route('GET|POST /mytcg/@controller/@action/@id','Filler00\Router->routeAdmin');
 
-$f3->route('GET|POST /mytcg/@controller/@action/@id',
-	function($f3) {
-		$ctrl = new AdminController; $ctrl->beforeRoute();
-		$className = 'My' . ucfirst($f3->get('PARAMS.controller')) . 'Controller';
-		$actionName = $f3->get('PARAMS.action');
-		if ( method_exists($className,$actionName) ) {
-			$$className = new $className;
-			$$className->$actionName($f3->get('PARAMS.id'));
-		} else if ( class_exists($className) ) {
-			$f3->error(404);
-		} else if ( file_exists('app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm') ) {
-			$f3->set('content','app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm');
-			echo Template::instance()->render('app/templates/admin.htm');
-		} else {
-			$f3->error(404);
-		}
-		$ctrl->afterRoute();
-	}
-);
+$f3->route('GET|POST /mytcg/@controller/@action', 'Filler00\Router->routeAdmin');
 
-$f3->route('GET|POST /mytcg/@controller/@action',
-	function($f3) {
-		$ctrl = new AdminController; $ctrl->beforeRoute();
-		$className = 'My' . ucfirst($f3->get('PARAMS.controller')) . 'Controller';
-		$actionName = $f3->get('PARAMS.action');
-		if ( method_exists($className,$actionName) ) {
-			$$className = new $className;
-			$$className->$actionName();
-		} else if ( class_exists($className) ) {
-			$f3->error(404);
-		} else if ( file_exists('app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm') ) {
-			$f3->set('content','app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm');
-			echo Template::instance()->render('app/templates/admin.htm');
-		} else {
-			$f3->error(404);
-		}
-		$ctrl->afterRoute();
-	}
-);
+$f3->route('GET|POST /mytcg/@controller', 'Filler00\Router->routeAdmin');
 
-$f3->route('GET|POST /mytcg/@controller',
-	function($f3) {
-		$ctrl = new AdminController; $ctrl->beforeRoute();
-		$className = 'My' . ucfirst($f3->get('PARAMS.controller')) . 'Controller';
-		if ( method_exists($className,'index') ) {
-			$$className = new $className;
-			$$className->index();
-		} else if ( class_exists($className) ) {
-			$f3->error(404);
-		} else if ( file_exists('app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm') ) {
-			$f3->set('content','app/www/mytcg/'. $f3->get('PARAMS.controller') .'.htm');
-			echo Template::instance()->render('app/templates/admin.htm');
-		} else {
-			$f3->error(404);
-		}
-		$ctrl->afterRoute();
-	}
-);
+$f3->route('GET /mytcg', 'Filler00\Router->routeAdmin');
 
-$f3->route('GET /mytcg',
-	function($f3) {
-		$ctrl = new AdminController; $ctrl->beforeRoute();
-		if ( method_exists('MyIndexController','index') ) {
-			$MyIndexController = new MyIndexController;
-			$MyIndexController->index();
-		} else if ( class_exists('MyIndexController') ) {
-			$f3->error(404);
-		} else if ( file_exists('app/www/mytcg/index.htm') ) {
-			$f3->set('content','app/www/mytcg/index.htm');
-			echo Template::instance()->render('app/templates/admin.htm');
-		} else {
-			$f3->error(404);
-		}
-		$ctrl->afterRoute();
-	}
-);
+// Front end routes
+$f3->route('GET|POST /@controller/@action/@id','Filler00\Router->route');
 
+$f3->route('GET|POST /@controller/@action', 'Filler00\Router->route');
+
+$f3->route('GET|POST /@controller', 'Filler00\Router->route');
+
+$f3->route('GET /', 'Filler00\Router->route');
+
+/*
 $f3->route('GET|POST /@controller/@action/@id',
 	function($f3) {
 		$ctrl = new Controller; $ctrl->beforeRoute();
@@ -155,3 +95,4 @@ $f3->route('GET /',
 		$ctrl->afterRoute();
 	}
 );
+*/

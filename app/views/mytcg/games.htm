@@ -1,30 +1,124 @@
-<?php require('check.php'); 
-require_once('settings.php');
-include('header.php'); ?>
 <h1>Games</h1>
-&raquo; Do you want to <a href="add_game.php">add a game</a>?
-<br /><br />
 
-<?php
-for($i=1; $i<=$num_gamecats; $i++) {
-	$group = $gamecat[$i];
-	$select = mysql_query("SELECT * FROM `$table_games` WHERE `category`='$group' ORDER BY `name`");
-	$count = mysql_num_rows($select);
-	echo "<h1>$group</h1>\n";
+<div id="games">
 	
-	if($count==0) {
-		echo "<center>There are currently no games in this group.</center>\n";
-		echo "<br /><br />\n\n";
-	}
-	else {
-		echo "<table width=\"100%\">\n";
-		echo "<tr><td width=\"25%\"><b>Action</b></td><td width=\"50%\"><b>Description</b></td><td width=\"25%\"><b>Updated</b></td></tr>\n";
-		while($row=mysql_fetch_assoc($select)) {
-			$name = stripslashes($row[name]);
-			echo "<tr><td><a href=\"edit_game.php?id=$row[id]\">Edit</a> | <a href=\"delete_game.php?id=$row[id]\">Delete</a></td><td>$name</td><td>$row[updated]</td></tr>\n";
-		}
-		echo "</table>\n";
-		echo "<br /><br />\n\n";
-	}
-}
-include('footer.php'); ?>
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="btn-group">
+				<button class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Update all games to the next available round"><i class="fa fa-arrow-circle-up"></i> &nbsp; Update All</button>
+				<button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Update due and overdue games to the next available round"><i class="fa fa-clock-o"></i> &nbsp; Update Due</button>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="input-group pull-right">
+				<input type="text" class="form-control search" placeholder="Search games by name...">
+				<span class="input-group-btn">
+			        <button class="btn btn-primary" data-toggle="modal" data-target="#new-game-modal"><i class="fa fa-plus"></i> &nbsp; New Game</button>
+			    </span>
+			</div>
+		</div>
+	</div>
+	
+	<hr>
+	<!-- Display all games -->
+	<check if="{{ count(@games) > 0 }}">
+		<true>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Game</th>
+						<th class="hidden-xs hidden-sm">Category</th>
+						<th class="visible-lg">Description</th>
+						<th>Round #</th>
+						<th class="hidden-xs hidden-sm">Last Updated</th>
+						<th>Next Update</th>
+						<th>Manage</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<repeat group="{{ @games }}" value="{{ @game }}">
+						<tr>
+							<td class="gamename"><a href="{{ @tcgurl }}games/view/{{ @game.name }}">{{ @gameData[@game.id]['long-name'] }}</a></td>
+							<td class="hidden-xs hidden-sm">{{ @gamecat[@game.category] }}</td>
+							<td class="visible-lg">{{ @game.description }}</td>
+							<td class="{{ ( @gameData[@game.id]['current-round'] >= count(@gameData[@game.id]['rounds']) ) ? 'danger' : '' }}">{{ @gameData[@game.id]['current-round'] }} / {{ count(@gameData[@game.id]['rounds']) }}</td>
+							
+							<check if="{{ @gameData[@game.id]['schedule-enabled'] }}">
+								<true>
+									<td class="hidden-xs hidden-sm">{{ date("D, d M Y", @game.updated) }}</td>
+									<td class="{{ ( time() > strtotime(@gameData[@game.id]['schedule'], @game.updated) ) ? 'danger' : '' }} {{ ( time() == strtotime(@gameData[@game.id]['schedule'], @game.updated) ) ? 'success' : '' }}">
+										{{ date("D, d M Y", strtotime(@gameData[@game.id]['schedule'], @game.updated)) }}
+									</td>
+								</true>
+								<false>
+									<td class="hidden-xs hidden-sm">N/A</td><td>N/A</td>
+								</false>
+							</check>
+							
+							<td>
+								<form method="post">
+									<input type="hidden" name="id" value="{{ @game.id }}">
+									
+									<div class="btn-group" role="group">
+										<button type="button" class="btn btn-xs btn-default" data-game-id="{{ @game.id }}" data-toggle="modal" data-target="#edit-game-modal"><i class="fa fa-pencil"></i></button>
+										<button class="btn btn-xs btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to delete the {{ @game.name }} game? This action can't be undone." type="submit" name="delete-game-submit"><i class="fa fa-times"></i></button>
+										<button class="btn btn-xs btn-success trigger-alert" data-alert-title="Confirm Update" data-alert-msg="Are you sure that you want to update the {{ @game.name }} game to the next round?" type="submit" name="update-game-submit"><i class="fa fa-arrow-up"></i></button>
+									</div>
+								</form>
+							</td>
+						</tr>
+					</repeat>
+				</tbody>
+			</table>
+		</true>
+		<false>
+			<p><em>You haven't created any games yet!</em></p>
+		</false>
+	</check>
+
+</div>
+
+<div class="modal fade" id="new-game-modal" tabindex="-1" role="dialog" aria-labelledby="new-game-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="new-game-modal-label">Add a New Game</h4>
+			</div>
+			<div class="modal-body">
+				
+				<include href="app/views/mytcg/games_add_form.htm" />
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="new-game-submit" form="new-game-form">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="edit-game-modal" tabindex="-1" role="dialog" aria-labelledby="edit-game-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<ul class="nav nav-tabs">
+					<li role="presentation" class="active"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+					<li role="presentation"><a href="#rounds" aria-controls="rounds" role="tab" data-toggle="tab">Rounds</a></li>
+				</ul>
+			</div>
+			<div class="modal-body">
+				
+				<p>Loading...</p>
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="edit-game-submit" form="edit-game-form">Save</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -35,7 +35,9 @@
 					<a class="navbar-brand" href="{{ @adminuri }}">{{ @tcgname }} Admin</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
-					<small class="navbar-text"><em>MyTCG-f3 v0.0.1</em></small>
+					<ul class="nav navbar-nav">
+        				<li><a href="{{ @adminuri }}update"><small class="version-warning"><em>MyTCG-f3 v0.0.1</em></small></a></li>
+					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="navbar-text"><i class="fa fa-user"></i> &nbsp; {{ @SESSION.adminName }}</li>
 						<li><a href="{{ @adminuri }}login/logout">Logout</a></li>
@@ -51,16 +53,46 @@
 			<div class="row">
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
-						<li {{ !isset(@PARAMS.controller) ? 'class="active"' : '' }}><a href="{{ @adminuri }}"><i class="fa fa-dashboard"></i> &nbsp; Dashboard</a></li>
+						<li {{ !isset(@PARAMS.controller) ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}">
+								Dashboard
+								<i class="fa fa-dashboard pull-right"></i>
+							</a>
+						</li>
 					</ul>
 					<ul class="nav nav-sidebar">
-						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'members' ? 'class="active"' : '' }}><a href="{{ @adminuri }}members"><i class="fa fa-users"></i> &nbsp; Members</a></li>
-						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'cards' ? 'class="active"' : '' }}><a href="{{ @adminuri }}cards"><i class="fa fa-th-large"></i> &nbsp; Cards</a></li>
-						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'games' ? 'class="active"' : '' }}><a href="{{ @adminuri }}games"><i class="fa fa-gamepad"></i> &nbsp; Games</a></li>
-						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'affiliates' ? 'class="active"' : '' }}><a href="{{ @adminuri }}affiliates"><i class="fa fa-link"></i> &nbsp; Affiliates</a></li>
+						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'members' ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}members">
+								Members
+								<i class="fa fa-users pull-right"></i>
+							</a>
+						</li>
+						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'cards' ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}cards">
+								Cards
+								<i class="fa fa-th-large pull-right"></i>
+							</a>
+						</li>
+						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'games' ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}games">
+								Games
+								<i class="fa fa-gamepad pull-right"></i>
+							</a>
+						</li>
+						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'affiliates' ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}affiliates">
+								Affiliates
+								<i class="fa fa-link pull-right"></i>
+							</a>
+						</li>
 					</ul>
 					<ul class="nav nav-sidebar">
-						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'plugins' ? 'class="active"' : '' }}><a href="{{ @adminuri }}plugins"><i class="fa fa-puzzle-piece"></i> &nbsp; Plugins</a></li>
+						<li {{ isset(@PARAMS.controller) && @PARAMS.controller == 'plugins' ? 'class="active"' : '' }}>
+							<a href="{{ @adminuri }}plugins">
+								Plugins
+								<i class="fa fa-puzzle-piece pull-right"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
