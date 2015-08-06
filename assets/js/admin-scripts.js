@@ -69,12 +69,50 @@ var deckList = new List('decks', { valueNames: [ 'deckname' ] });
 // game search
 var gameList = new List('games', { valueNames: [ 'gamename' ] });
 
-// edit games form modal
+/*****
+ * edit games form modal
+ *****/
+ 
 $('#edit-game-modal').on('show.bs.modal', function (e) {
+    $('#edit-game-modal .modal-header .nav-tabs [role=presentation]').removeClass('active');
+    $('#edit-game-modal .modal-header .nav-tabs [role=presentation]:first-child').addClass('active');
 	$( "#edit-game-modal .modal-body" ).load('games/edit/' + e.relatedTarget.dataset.gameId, function(){
 	    
 	    // initialize tooltips
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        
+        // disable event bubbling on current-round radio select buttons
+        $(document).on('click', 'input[type=radio][name=current-round]', function(e){ e.stopPropagation(); });
+        
+        // delete game round button- event handler
+        $(document).on('click', 'button[name=delete-game-round]', function(){
+            $(this).closest('.panel').remove();
+        });
+        
+        // new game round button - event handler
+        $('button[name=new-game-round]').on('click', function(){
+            if ( $('#game-rounds .panel').length > 0 ) {
+                var lastRound = $('#game-rounds .panel:last-child .panel-heading').prop('id').match(/^round([0-9]*)-header$/i)[1];
+            } else {
+                var lastRound = 0;
+            }
+            var newRound = parseInt(lastRound) + 1;
+            var newRoundDiv = $('#new-game-round-panel > .panel').clone();
+            
+            newRoundDiv.find('.panel-heading').prop('id','round' + newRound + '-header');
+            newRoundDiv.find('.panel-heading').attr('href','#round' + newRound + '-collapse');
+            newRoundDiv.find('.panel-heading').attr('aria-controls','round' + newRound + '-collapse');
+            newRoundDiv.find('.panel-title .title-text').text('Round #' + newRound);
+            newRoundDiv.find('.panel-collapse').prop('id', 'round' + newRound + '-collapse');
+            newRoundDiv.find('.panel-collapse').prop('aria-labelledby', 'round' + newRound + '-header');
+            newRoundDiv.find('.panel-body .form-group').each(function(){ 
+                var field = $(this).find('label').text();
+                $(this).find('label').prop('for', 'rounds[' + newRound + '][' + field + ']'); 
+                $(this).find('input').prop('name', 'rounds[' + newRound + '][' + field + ']');
+            });
+
+            $('#game-rounds').append(newRoundDiv);
+        });
 
 	    // disable/enable schdule fields in edit game form
         if ( $('#edit-game-form [name="schedule-day"]').val() === 'null' ) {
@@ -95,7 +133,11 @@ $('#edit-game-modal').on('show.bs.modal', function (e) {
 	});
 })
 
-// disable/enable schdule fields in new game form
+/*****
+ * new games form modal
+ *****/
+
+// disable/enable schedule fields in new game form
 if ( $('#new-game-form [name="schedule-day"]').val() === 'null' ) {
     $('#new-game-form [name="schedule-frequency"]').prop('disabled',true);
     $('#new-game-form [name="start-date"]').prop('disabled',true);

@@ -130,6 +130,25 @@ body {
 	margin: 20px 0;
 }
 
+/* Admin styles -------------------------------------------------- */
+
+.btn-cells {
+	margin: -8px;
+}
+
+.btn-cells .btn {
+	border-radius: 0px;
+	border: none;
+	padding: 8px 12px;
+}
+
+.btn-cells .btn.btn-default {
+	background-color: transparent;
+}
+
+.btn-group.btn-cells .btn+.btn {
+    margin-left: 0px;
+}
 
 /* Dashboard styles -------------------------------------------------- */
 
@@ -201,4 +220,8 @@ body {
 
 #game-rounds .panel-heading {
 	cursor: pointer;
+}
+
+#new-game-round-panel {
+	display: none;
 }

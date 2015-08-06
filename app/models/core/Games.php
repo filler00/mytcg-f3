@@ -32,12 +32,14 @@ class Games extends \DB\SQL\Mapper {
 	public function edit($id)
 	{
 		$this->load(array('id=?',$id));
-		$this->copyFrom('POST');
-		$this->update();
+		$this->copyfrom('POST',function($val) {
+			return array_intersect_key($val, array_flip(array('name','description','category','updated')));
+		});
+		return $this->update();
 	}
 	public function delete($id)
 	{
 		$this->load(array('id=?',$id));
-		$this->erase();
+		return $this->erase();
 	}
 }
