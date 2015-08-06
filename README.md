@@ -17,6 +17,11 @@ Features introduced in MyTCG-f3 include:
 ## Demo
 http://code.filler00.com/mytcg-f3/
 
+## Specifications
+- PHP 5.5+
+- MySQL
+- Apache
+
 ## Download
 Download the latest stable release from GitHub: https://github.com/tooblue/mytcg-f3/releases
 

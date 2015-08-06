@@ -186,8 +186,6 @@ class CardsController extends Controller {
 		}
 		
 		// validate form
-		if ( !preg_match("/^[\w\- ]{2,30}$/", $this->f3->get('POST.deckname')) )
-			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid deck name.'));
 		if ( $this->f3->get('POST.status') == 'Released' && !preg_match("/^[\w\-]{2,30}$/", $this->f3->get('POST.filename')) )
 			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid file name.'));
 		if ( !isset($this->f3->get('category')[$this->f3->get('POST.category')]) )
@@ -207,16 +205,18 @@ class CardsController extends Controller {
 			if ( ( $statusChange == true && $cards->add() ) || ( $statusChange == false && $cards->edit($this->f3->get('POST.id')) ) ) {
 				$this->f3->push('SESSION.flash',array('type'=>'success','msg'=>'Deck information updated successfully!'));
 				
-				// if status was changed, delete entry from other table
-				switch( $this->f3->get('POST.original-status') ){
-					case "Upcoming":
-						$this->upcoming->delete($this->f3->get('POST.id'));
-						break;
-					case "Released":
-						$this->cards->delete($this->f3->get('POST.id'));
-						break;
-					default:
-						$this->f3->error(404);
+				if ( $statusChange ) {
+					// if status was changed, delete entry from other table
+					switch( $this->f3->get('POST.original-status') ){
+						case "Upcoming":
+							$this->upcoming->delete($this->f3->get('POST.id'));
+							break;
+						case "Released":
+							$this->cards->delete($this->f3->get('POST.id'));
+							break;
+						default:
+							$this->f3->error(404);
+					}
 				}
 				
 			} else {

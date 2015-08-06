@@ -29,7 +29,7 @@
 						<th>Description</th>
 						<th>Status</th>
 						<th>#/$</th>
-						<th>Manage</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody class="list">
@@ -56,9 +56,9 @@
 								<input type="hidden" name="id" value="{{ @deck.id }}">
 								<input type="hidden" name="status" value="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}">
 								
-								<div class="btn-group" role="group">
-									<button type="button" class="btn btn-xs btn-default" data-deck-status="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}" data-deck-id="{{ @deck.id }}" data-toggle="modal" data-target="#edit-cards-modal"><i class="fa fa-pencil"></i></button>
-									<button class="btn btn-xs btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to delete the {{ @deck.deckname }} deck? This action can't be undone." type="submit" name="delete-cards-submit"><i class="fa fa-times"></i></button>
+								<div class="btn-group btn-cells pull-right" role="group">
+									<button type="button" class="btn btn-default" data-deck-status="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}" data-deck-id="{{ @deck.id }}" data-toggle="modal" data-target="#edit-cards-modal"><i class="fa fa-pencil"></i></button>
+									<button class="btn btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to delete the {{ @deck.deckname }} deck? This action can't be undone." type="submit" name="delete-cards-submit"><i class="fa fa-times"></i></button>
 								</div>
 							</form>
 						</td>
