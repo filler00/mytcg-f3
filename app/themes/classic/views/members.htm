@@ -1,0 +1,91 @@
+<h1>Members</h1>
+
+<h2>Pending</h2>
+<check if="{{ count(@pending) > 0 }}">
+	<true>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th>
+				</tr>
+			</thead>
+			<tbody class="table-hover">
+			<repeat group="{{ @pending }}" value="{{ @member }}">
+				<tr>
+					<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+					<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+					<td>{{ @member.birthday }}</td>
+					<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+				</tr>
+			</repeat>
+			</tbody>
+		</table>
+	</true>
+	<false>
+		<p><em>There are no pending members!</em></p>
+	</false>
+</check>
+
+<check if="{{ count(@level) > 0 }}">
+	<true>
+		<repeat group="{{ @level }}" value="{{ @lvlname }}" key="{{ @index }}">
+			<h2>{{ @lvlname }}</h2>
+			
+			<!-- Display members at level: {{ @lvlname }} -->
+			<check if="{{ count(@levels[@index]) > 0 }}">
+				<true>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th>
+							</tr>
+						</thead>
+						<tbody class="table-hover">
+						<repeat group="{{ @levels[@index] }}" value="{{ @member }}">
+							<tr>
+								<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+								<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+								<td>{{ @member.birthday }}</td>
+								<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+							</tr>
+						</repeat>
+						</tbody>
+					</table>
+				</true>
+				<false>
+					<p><em>There are no members at this level!</em></p>
+				</false>
+			</check>
+			
+		</repeat>
+	</true>
+	<false>
+		<p><em>There are no levels?! D:</em></p>
+	</false>
+</check>
+
+<h2>Hiatus</h2>
+<check if="{{ count(@hiatus) > 0 }}">
+	<true>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th><th>Website</th><th>Birthday</th><th>Collecting</th>
+				</tr>
+			</thead>
+			<tbody class="table-hover">
+			<repeat group="{{ @hiatus }}" value="{{ @member }}">
+				<tr>
+					<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
+					<td><a href="{{ @member.url }}">{{ @member.url }}</a></td>
+					<td>{{ @member.birthday }}</td>
+					<td><a href="{{ @tcgurl }}cards/view/{{ @member.collecting }}">{{ @member.collecting }}</a></td>
+				</tr>
+			</repeat>
+			</tbody>
+		</table>
+	</true>
+	<false>
+		<p><em>There are no members on hiatus!</em></p>
+	</false>
+</check>

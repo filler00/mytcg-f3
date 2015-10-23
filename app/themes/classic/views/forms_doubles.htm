@@ -1,0 +1,23 @@
+<h2>Doubles Exchange</h2>
+<p>Limit 20 cards per exchange. Please submit the form again if you need more!</p>
+
+<form method="post">
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="form-group">
+				<label for="type">Type</label>
+				<select class="form-control" name="type" required>
+					<option selected>Regular</option>
+					<option>Special</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-group">
+				<label for="number">Number</label>
+				<input type="number" class="form-control" name="number" value="1" required>
+			</div>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary" name="doubles">Exchange</button>
+</form>

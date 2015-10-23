@@ -1,0 +1,51 @@
+<h1>Member Forms</h1>
+
+<div class="row">
+	<div class="col-sm-6">
+		<include href="app/views/forms_level.htm" />
+	</div>
+	<div class="col-sm-6">
+		<include href="app/views/forms_master.htm" />
+	</div>
+</div>
+
+<hr>
+
+<div class="row">
+	<div class="col-sm-6">
+		<include href="app/views/forms_doubles.htm" />
+	</div>
+	<div class="col-sm-6">
+		<include href="app/views/forms_mcs.htm" />
+	</div>
+</div>
+
+<hr>
+
+<include href="app/views/forms_quit.htm" />
+
+<check if="{{ isset(@rewards) }}">
+	<!-- Prize Modal! -->
+	<div class="modal fade" id="prize-modal" tabindex="-1" role="dialog" aria-labelledby="prize-modal-label" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="prize-modal-label">{{ @rewardType }}!</h4>
+			</div>
+			<div class="modal-body">
+				<p>Please take the cards below, and don't forget to log!</p>
+				<p>
+				<repeat group="{{ @rewards }}" value="{{ @card }}">
+					<img src="{{ @tcgcardurl . @card }}.{{ @ext }}" alt="{{ @card }}">
+				</repeat>
+				</p>
+				<p><strong>{{ @rewardType}}</strong>: {{ implode(', ', @rewards) }}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	  </div>
+	</div>
+</check>

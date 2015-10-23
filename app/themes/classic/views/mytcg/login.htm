@@ -1,0 +1,35 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	if (!ereg("^[A-Za-z0-9]", $_POST['username']))
+		exit("<h1>Error</h1>\nInvalid characters in the username.");
+
+	$username = $_POST['username'];
+	$password = md5($_POST['password']);
+
+	require_once('settings.php');
+	if (array_key_exists($username, $users)) {
+		if ($password == $users[$username]) {
+			session_start();
+
+			$_SESSION['loggedin'] = md5($username.$password.$salt);
+			header("Location: index.php");
+			exit;
+		} else {
+			exit("<h1>Error</h1>\nInvalid password.");
+		}
+	} else {
+		exit("<h1>Error</h1>\nInvalid username.");
+	}
+}
+
+include('header.php'); ?>
+<h1>Log In</h1>
+<form method="post" action="login.php">
+<table width="100%">
+<tr><td>Username</td><td><input type="text" name="username" /></td></tr>
+<tr><td>Password</td><td><input type="password" name="password" /></td></tr>
+<tr><td>&nbsp;</td><td><input type="submit" name="submit" value="Login!"></td></tr>
+</table>
+</form>
+
+<?php include('footer.php'); ?>
