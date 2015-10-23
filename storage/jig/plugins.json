@@ -1,0 +1,71 @@
+{
+    "55c14361c10974.92931214": {
+        "enabled": true,
+        "package": "filler00\/mytcg-f3-news",
+        "config": {
+            "name": "News",
+            "author": "Filler00",
+            "authorUrl": "https:\/\/filler00.com",
+            "supportUrl": "",
+            "fa-icon": "",
+            "version": "1.0",
+            "description": "A simple news and comments management system with Markdown and Twemoji support.",
+            "database": [
+                {
+                    "name": "filler00_news",
+                    "fields": {
+                        "id": "INT NOT NULL AUTO_INCREMENT",
+                        "subject": "VARCHAR(255)",
+                        "author_id": "INT NOT NULL",
+                        "date": "DATE",
+                        "content": "TEXT"
+                    },
+                    "primary-key": "id",
+                    "indexes": [
+                        "author_id"
+                    ],
+                    "foreign-keys": {
+                        "author_id": "members(id)"
+                    }
+                },
+                {
+                    "name": "filler00_news_comments",
+                    "fields": {
+                        "id": "INT NOT NULL AUTO_INCREMENT",
+                        "post_id": "INT",
+                        "author_id": "INT NOT NULL",
+                        "date": "DATE",
+                        "content": "TEXT"
+                    },
+                    "primary-key": "id",
+                    "indexes": [
+                        "author_id"
+                    ],
+                    "foreign-keys": {
+                        "post_id": "filler00_news(id)",
+                        "author_id": "members(id)"
+                    }
+                }
+            ]
+        }
+    },
+    "562a4c9bb69384.48513753": {
+        "package": "filler00\/mytcg-f3-guessthecard",
+        "enabled": true,
+        "config": {
+            "name": "Guess the Card",
+            "author": "Filler00",
+            "authorUrl": "https:\/\/filler00.com",
+            "supportUrl": "",
+            "fa-icon": "",
+            "version": "1.0",
+            "description": "A simple guess the card game.",
+            "initFiles": [
+                {
+                    "source": "GuessTheCard.php.tmp",
+                    "destination": "app\/controllers\/local\/games\/GuessTheCard.php"
+                }
+            ]
+        }
+    }
+}

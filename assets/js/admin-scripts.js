@@ -155,3 +155,13 @@ $('#new-game-form [name="schedule-day"]').on('change', function(){
         form.find('[name="start-date"]').prop('disabled',false);
     }
 });
+
+
+/********** PLUGINS **************************/
+
+// edit plugins form modal
+$('#add-plugin-modal').on('show.bs.modal', function (e) {
+    $('#add-plugin-modal .modal-header .nav-tabs [role=presentation]').removeClass('active');
+    $('#add-plugin-modal .modal-header .nav-tabs [role=presentation]:first-child').addClass('active');
+	$('#add-plugin-modal .modal-body').load('plugins/add');
+})

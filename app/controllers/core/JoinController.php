@@ -65,7 +65,7 @@ class JoinController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 					->setTo(array($this->f3->get('tcgemail')))
 					->setReplyTo(array($this->f3->get('POST.email')))
-					->setBody(Template::instance()->render('app/templates/emails/newmember.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/newmember.htm'), 'text/html')
 					;
 
 				// send email & save to db
@@ -90,16 +90,16 @@ class JoinController extends Controller {
 					$result = $mailer->send($message);
 					
 					// load welcome message
-					$this->f3->set('content','app/views/welcome.htm');
+					$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/welcome.htm');
 				} else {
 					$this->f3->push('SESSION.flash',array('type'=>'danger','msg'=>'There was a problem processing your request. Please try again or contact us for assistance!'));
 				}
 			}
 		}
 		
-		if ( !$this->f3->exists('content') ) { $this->f3->set('content','app/views/join.htm'); }
+		if ( !$this->f3->exists('content') ) { $this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/join.htm'); }
 		$this->f3->set('decks',$cards->allAlpha());
-		echo Template::instance()->render('app/templates/default.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	
 }

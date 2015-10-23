@@ -9,7 +9,7 @@ class Games extends \DB\SQL\Mapper {
 	}
 	public function all()
 	{
-		$this->load();
+		$this->load('',array('order'=>'name'));
 		return $this->query;
 	}
 	public function add()

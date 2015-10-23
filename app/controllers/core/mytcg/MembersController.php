@@ -18,8 +18,8 @@ class MembersController extends Controller {
 		$this->f3->set('pending',$members->getByStatus('pending'));
 		$this->f3->set('hiatus',$members->getByStatus('hiatus'));
 		
-		$this->f3->set('content','app/views/mytcg/members.htm');
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/members.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	public function edit($id='')
 	{
@@ -68,8 +68,8 @@ class MembersController extends Controller {
 			}
 
 		}
-		$this->f3->set('content','app/views/mytcg/members_edit.htm');
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/members_edit.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	public function activate($id='')
 	{
@@ -87,7 +87,7 @@ class MembersController extends Controller {
 			$this->f3->push('SESSION.flash',array('type'=>'success','msg'=>'Member '.$this->f3->get('member')->name.' approved!'));
 		}
 		$this->f3->reroute('/mytcg/members');
-		echo Template::instance()->render('app/templates/admin.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 
 	}
 	public function delete($id='')
@@ -104,8 +104,8 @@ class MembersController extends Controller {
 			$this->f3->push('SESSION.flash',array('type'=>'success','msg'=>'Member '.$this->f3->get('member')->name.' deleted!'));
 			$this->f3->reroute('/mytcg/members');
 		} 
-		$this->f3->set('content','app/views/mytcg/members_delete.htm');
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/members_delete.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 
 	}
 }

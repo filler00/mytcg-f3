@@ -40,8 +40,8 @@ class CardsController extends Controller {
 		$decks = $this->f3->merge('upcoming','cards');
 		$this->f3->set('decks',$decks);
 		
-		$this->f3->set('content','app/views/mytcg/cards.htm'); 
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/cards.htm'); 
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	
 	/************************************* 
@@ -80,7 +80,7 @@ class CardsController extends Controller {
 		else {
 			$this->f3->set('deck',$cards->read(array('id=?',$id),[])[0]);
 			$this->f3->set('status',$status);
-			echo Template::instance()->render('app/views/mytcg/cards_edit_form.htm');
+			echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/views/mytcg/cards_edit_form.htm');
 		}
 	}
 	

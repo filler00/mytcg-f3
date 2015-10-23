@@ -36,7 +36,7 @@ class Cards extends \DB\SQL\Mapper {
 	}
 	public function getByCat($cat)
 	{
-		$this->load(array('category=?',$cat));
+		$this->load(array('category=?',$cat), array('order'=>'filename'));
 		return $this->query;
 	}
 	public function getByFilename($filename)

@@ -12,8 +12,8 @@ class AffiliatesController extends Controller {
 	{
 		$affiliates = new Affiliates($this->db);
 		$this->f3->set('affiliates',$affiliates->read(array('status=?','Active'),[]));
-		$this->f3->set('content','app/views/affiliates.htm');
-		echo Template::instance()->render('app/templates/default.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/affiliates.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	
 	public function request()
@@ -47,7 +47,7 @@ class AffiliatesController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 					->setTo(array($this->f3->get('tcgemail')))
 					->setReplyTo(array($this->f3->get('POST.email')))
-					->setBody(Template::instance()->render('app/templates/emails/affiliation.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/affiliation.htm'), 'text/html')
 					;
 				
 				// send email & save to db
