@@ -37,6 +37,12 @@ width = 50px
 height = 75px
 ext = gif
 
+;Static CSS Files
+;ASSETS.css[0] = assets/css/style.css
+
+;Static JS Files
+;ASSETS.js[0] = assets/js/scripts.js
+
 ;Theme Settings
 theme = classic
 admintheme = classic

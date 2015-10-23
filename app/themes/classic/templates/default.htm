@@ -9,14 +9,10 @@
 
 		<title>MyTCG-f3 Demo</title>
 		
-		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link href="{{ @tcguri }}assets/css/style.css" rel="stylesheet">
-		
-		<check if="{{ isset(@ASSETS.css) && !empty(@ASSETS.css) }}">
-				<link href="{{ @tcguri }}minify/css?files={{ implode(',',@ASSETS.css) }}" rel="stylesheet">
-		</check>
+
+		<link rel="stylesheet" href="{{ @tcguri }}minify/css?files=app/themes/{{ @theme }}/assets/css/style.css{{ ( isset(@ASSETS.css) && !empty(@ASSETS.css) ) ? ',' . implode(',',@ASSETS.css) : '' }}">
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -117,11 +113,8 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="{{ @tcguri }}assets/js/scripts.js"></script>
-		
-		<check if="{{ isset(@ASSETS.js) && !empty(@ASSETS.js) }}">
-				<script src="{{ @tcguri }}minify/js?files={{ implode(',',@ASSETS.js) }}"></script>
-		</check>
+
+<script src="{{ @tcguri }}minify/js?files=app/themes/{{ @theme }}/assets/js/scripts.js{{ ( isset(@ASSETS.js) && !empty(@ASSETS.js) ) ? ',' . implode(',',@ASSETS.js) : '' }}"></script>
 	
 	</body>
 </html>

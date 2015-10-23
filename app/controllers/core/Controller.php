@@ -28,8 +28,6 @@ class Controller {
 		$this->auth = new \Auth($user, array('id'=>'name', 'pw'=>'password'));
 		$this->f3 = $f3;
 		
-		$this->f3->set('ASSETS.css',[]);
-		$this->f3->set('ASSETS.js',[]);
 	}
 	
 	function beforeRoute() {

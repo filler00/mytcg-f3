@@ -10,7 +10,8 @@
 		<title>MyTCG Admin | {{ @tcgname }}</title>
 
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link href="{{ @tcguri }}assets/css/admin-login.css" rel="stylesheet">
+
+		<link rel="stylesheet" href="{{ @tcguri }}minify/css?files=app/themes/{{ @theme }}/assets/css/admin-login.css{{ ( isset(@ASSETS.css) && !empty(@ASSETS.css) ) ? ',' . implode(',',@ASSETS.css) : '' }}">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
