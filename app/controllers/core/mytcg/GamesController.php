@@ -120,8 +120,8 @@ class GamesController extends Controller {
 		$this->f3->set('scheduleDays', $this->scheduleDays);
 		$this->f3->set('scheduleFrequencies', $this->scheduleFrequencies);
 		
-		$this->f3->set('content','app/views/mytcg/games.htm'); 
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/games.htm'); 
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	
 	/************************************* 
@@ -149,7 +149,7 @@ class GamesController extends Controller {
 			
 			$this->f3->set('scheduleDays', $this->scheduleDays);
 			$this->f3->set('scheduleFrequencies', $this->scheduleFrequencies);
-			echo Template::instance()->render('app/views/mytcg/games_edit_form.htm');
+			echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/views/mytcg/games_edit_form.htm');
 		}
 	}
 	
@@ -175,7 +175,7 @@ class GamesController extends Controller {
 			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'That alias name is already being used for another game.'));
 		if ( !isset($this->f3->get('gamecat')[$this->f3->get('POST.category')]) )
 			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid category.'));
-		if ( !array_key_exists($this->f3->get('POST.schedule-day'), $this->scheduleDays) || !array_key_exists($this->f3->get('POST.schedule-frequency'), $this->scheduleFrequencies) )	
+		if ( !array_key_exists($this->f3->get('POST.schedule-day'), $this->scheduleDays) || ( $this->f3->exists('POST.schedule-frequency') && !array_key_exists($this->f3->get('POST.schedule-frequency'), $this->scheduleFrequencies) ) )	
 			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid update schedule values.'));
 		
 		// process form if there are no errors
@@ -236,7 +236,7 @@ class GamesController extends Controller {
 		if ( !isset($this->f3->get('gamecat')[$this->f3->get('POST.category')]) )
 			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid category.'));
 		if ( !array_key_exists($this->f3->get('POST.schedule-day'), $this->scheduleDays) || ( $this->f3->exists('POST.schedule-frequency') && !array_key_exists($this->f3->get('POST.schedule-frequency'), $this->scheduleFrequencies) ) )	
-			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid update schedule values.' . var_dump(array_key_exists($this->f3->get('POST.schedule-frequency'), $this->scheduleFrequencies)) ));
+			$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid update schedule values.'));
 		
 		// process form if there are no errors
 		if ( count($this->f3->get('SESSION.flash')) === 0 ) {

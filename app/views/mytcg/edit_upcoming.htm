@@ -1,55 +1,0 @@
-<?php require('check.php');
-require_once('settings.php'); 
-include('header.php');
-
-if(!$_SERVER['QUERY_STRING']) {
-	?>
-	<h1>Error</h1>
-	This page shouldn't be accessed directly! Please go back and try something else.
-	<?php
-}
-
-elseif($_SERVER['QUERY_STRING']=="edited") {
-	if (!isset($_POST['submit']) || $_SERVER['REQUEST_METHOD'] != "POST") {	    exit("<p>You did not press the submit button; this page should not be accessed directly.</p>");	}
-	else {	    $exploits = "/(content-type|bcc:|cc:|document.cookie|onclick|onload|javascript|alert)/i";	    $profanity = "/(beastial|bestial|blowjob|clit|cum|cunilingus|cunillingus|cunnilingus|cunt|ejaculate|fag|felatio|fellatio|fuck|fuk|fuks|gangbang|gangbanged|gangbangs|hotsex|jism|jiz|kock|kondum|kum|kunilingus|orgasim|orgasims|orgasm|orgasms|phonesex|phuk|phuq|porn|pussies|pussy|spunk|xxx)/i";	    $spamwords = "/(viagra|phentermine|tramadol|adipex|advai|alprazolam|ambien|ambian|amoxicillin|antivert|blackjack|backgammon|texas|holdem|poker|carisoprodol|ciara|ciprofloxacin|debt|dating|porn)/i";	    $bots = "/(Indy|Blaiz|Java|libwww-perl|Python|OutfoxBot|User-Agent|PycURL|AlphaServer)/i";	    if (preg_match($bots, $_SERVER['HTTP_USER_AGENT'])) {	        exit("<h1>Error</h1>\nKnown spam bots are not allowed.");	    }	    foreach ($_POST as $key => $value) {	        $value = trim($value);	        if (empty($value)) {	            exit("<h1>Error</h1>\nAll fields are required. Please go back and complete the form.");	        }
-	        elseif (preg_match($exploits, $value)) {	            exit("<h1>Error</h1>\nExploits/malicious scripting attributes aren't allowed.");	        }
-	        elseif (preg_match($profanity, $value) || preg_match($spamwords, $value)) {	            exit("<h1>Error</h1>\nThat kind of language is not allowed through this form.");	        }	        $_POST[$key] = stripslashes(strip_tags($value));	    }
-	    	    $id = escape_sql(CleanUp($_POST['id']));
-		$description = escape_sql(CleanUp($_POST['description']));
-		$category = escape_sql(CleanUp($_POST['category']));
-	
-		$update = "UPDATE `$table_upcoming` SET description='$description', category='$category' WHERE id='$id'";	    if (mysql_query($update, $connect)) {	        echo "<h1>Success</h1>\n";
-	        echo "The card deck was successfully updated in the upcoming list.";
-	    }
-	    else {
-	    	echo "<h1>Error</h1>\n";	        echo "Sorry, there was an error and the card deck was not updated in the upcoming list.<br />\n";
-	        die("Error:". mysql_error());	    }	}
-}
-
-else {
-	$id=$_GET['id'];
-	$getdata = mysql_query("SELECT * FROM `$table_upcoming` WHERE id='$id'");
-	while($row=mysql_fetch_assoc($getdata)) {
-		?>
-		<h1>Edit an Upcoming Card Deck</h1>
-		Use this form to edit a card deck in the upcoming database. Use the <a href="add_cards.php">add</a> form to add new card decks or the <a href="add_upcoming.php">add</a> form to add a new card deck to the upcoming list.
-		<br /><br />
-		<form method="post" action="edit_upcoming.php?edited">
-		<input type="hidden" name="id" value="<?php echo $id; ?>" />
-		<table>
-		<tr><td><b>Description:</b></td><td><input type="text" name="description" value="<?php echo $row[description]; ?>" /></td></tr>
-		<tr><td><b>Category:</b></td><td><select name="category">
-		<option value="">-----</option>
-		<option value="<?php echo $row[category]; ?>">Current: <?php echo $category[$row[category]]; ?></option>
-		<?php
-		for($i=1; $i<=$num_categories; $i++) {
-			echo "<option value=\"$i\">$category[$i]</option>\n";
-		}
-		?>
-		</select></td></tr>
-		<tr><td>&nbsp;</td><td><input type="submit" name="submit" value=" Edit! " /></td></tr>
-		</table>
-		</form>
-		<?php
-	}
-}include('footer.php'); ?>

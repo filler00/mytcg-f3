@@ -1,81 +1,0 @@
-<?php require('check.php');
-require_once('settings.php'); 
-include('header.php');
-
-if(!$_SERVER['QUERY_STRING']) {
-	?>
-	<h1>Error</h1>
-	This page shouldn't be accessed directly! Please go back and try something else.
-	<?php
-}
-
-elseif($_SERVER['QUERY_STRING']=="edited") {
-	if (!isset($_POST['submit']) || $_SERVER['REQUEST_METHOD'] != "POST") {	    exit("<p>You did not press the submit button; this page should not be accessed directly.</p>");	}
-	else {	    $exploits = "/(content-type|bcc:|cc:|document.cookie|onclick|onload|javascript|alert)/i";	    $profanity = "/(beastial|bestial|blowjob|clit|cum|cunilingus|cunillingus|cunnilingus|cunt|ejaculate|fag|felatio|fellatio|fuck|fuk|fuks|gangbang|gangbanged|gangbangs|hotsex|jism|jiz|kock|kondum|kum|kunilingus|orgasim|orgasims|orgasm|orgasms|phonesex|phuk|phuq|porn|pussies|pussy|spunk|xxx)/i";	    $spamwords = "/(viagra|phentermine|tramadol|adipex|advai|alprazolam|ambien|ambian|amoxicillin|antivert|blackjack|backgammon|texas|holdem|poker|carisoprodol|ciara|ciprofloxacin|debt|dating|porn)/i";	    $bots = "/(Indy|Blaiz|Java|libwww-perl|Python|OutfoxBot|User-Agent|PycURL|AlphaServer)/i";	    if (preg_match($bots, $_SERVER['HTTP_USER_AGENT'])) {	        exit("<h1>Error</h1>\nKnown spam bots are not allowed.");	    }	    foreach ($_POST as $key => $value) {	        $value = trim($value);	        if (preg_match($exploits, $value)) {	            exit("<h1>Error</h1>\nExploits/malicious scripting attributes aren't allowed.");	        }
-	        elseif (preg_match($profanity, $value) || preg_match($spamwords, $value)) {	            exit("<h1>Error</h1>\nThat kind of language is not allowed through this form.");	        }	        $_POST[$key] = stripslashes(strip_tags($value));	    }
-	    	    $name2 = escape_sql(CleanUp($_POST['name']));
-		$description2 = escape_sql(CleanUp($_POST['description']));
-		$group = escape_sql(CleanUp($_POST['group']));
-		$updated = escape_sql(CleanUp($_POST['updated']));
-		$pass_type = escape_sql(CleanUp($_POST['pass_type']));
-		$pass_clue = escape_sql(CleanUp($_POST['pass_clue']));
-		$pass_answer = escape_sql(CleanUp($_POST['pass_answer']));
-		$password = escape_sql(CleanUp($_POST['password']));
-	    $regular = escape_sql(CleanUp($_POST['regular']));
-	    $special = escape_sql(CleanUp($_POST['special']));
-	    $extras2 = escape_sql(CleanUp($_POST['extras']));
-	    
-		$update = "UPDATE `$table_games` SET name='$name2', description='$description2', category='$group', updated='$updated', pass_type='$pass_type', pass_clue='$pass_clue', pass_answer='$pass_answer', password='$password', regular='$regular', special='$special', extras='$extras2' WHERE id='$id'";	    if (mysql_query($update, $connect)) {	        echo "<h1>Success</h1>\n";
-	        echo "The game was successfully updated in the database.";
-	    }
-	    else {
-	    	echo "<h1>Error</h1>\n";	        echo "Sorry, there was an error and the game was not updated.<br />\n";
-	        die("Error:". mysql_error());	    }	}
-}
-
-else {
-	$id=$_GET['id'];
-	$getdata = mysql_query("SELECT * FROM `$table_games` WHERE id='$id'");
-	while($row=mysql_fetch_assoc($getdata)) {
-		$name = stripslashes($row[name]);
-		$description = stripslashes($row[description]);
-		$extras = stripslashes($row[extras]);
-		?>
-		<h1>Edit a Game</h1>
-		Use this form to edit a game in the database. Use the <a href="add_game.php">add</a> form to add new games.
-		<br /><br />
-		<form method="post" action="edit_game.php?edited">
-		<input type="hidden" name="id" value="<?php echo $id; ?>" />
-		<table>
-		<tr><td><b>Name:</b></td><td><input type="text" name="name" value="<?php echo $name; ?>" /></td></tr>
-		<tr><td valign="top"><b>Description:</b></td><td><textarea rows="5" cols="40" name="description"><?php echo $description; ?></textarea></td></tr>
-		<tr><td><b>Group:</b></td><td><select name="group">
-		<option value="<?php echo $row[category]; ?>">Current: <?php echo $row[category]; ?></option>
-		<?php
-		for($i=1; $i<=$num_gamecats; $i++) {
-			echo "<option value=\"$gamecat[$i]\">$gamecat[$i]</option>\n";
-		}
-		?>
-		</select></td></tr>
-		<tr><td><b>Updated:</b></td><td><input type="text" name="updated" value="<?php echo date("d M y"); ?>" /></td></tr>
-		<tr><td colspan="2">&nbsp;</td>
-		<tr><td colspan="2"><center><b>Password Gates</b></center></td></tr>
-		<tr><td><b>Type:</b></td><td><select name="pass_type">
-		<option value="<?php echo $row[pass_type]; ?>">Current: <?php echo $row[pass_type]; ?></option>
-		<option value="image">Image</option>
-		<option value="text">Text</option>
-		</select></td></tr>
-		<tr><td><b>Image/Clue:</b></td><td><input type="text" name="pass_clue" value="<?php echo $row[pass_clue]; ?>" /></td></tr>
-		<tr><td><b>Password:</b></td><td><input type="text" name="password" value="<?php echo $row[password]; ?>" /></td></tr>
-		<tr><td><b>Answer:</b></td><td><input type="text" name="pass_answer" value="<?php echo $row[pass_answer]; ?>" /></td></tr>
-		<tr><td colspan="2">&nbsp;</td>
-		<tr><td colspan="2"><center><b>Rewards</b></center></td></tr>
-		<tr><td><b>Number of Regular Cards:</b></td><td><input type="text" name="regular" value="<?php echo $row[regular]; ?>" /></td></tr>
-		<tr><td><b>Number of Special Cards:</b></td><td><input type="text" name="special" value="<?php echo $row[special]; ?>" /></td></tr>
-		<tr><td valign="top"><b>Extras?:</b></td><td><textarea rows="5" cols="40" name="extras"></textarea><?php echo $extras; ?></td></tr>
-		<tr><td>&nbsp;</td><td><input type="submit" name="submit" value=" Edit! " /></td></tr>
-		</table>
-		</form>
-		<?php
-	}
-}include('footer.php'); ?>

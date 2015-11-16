@@ -37,8 +37,8 @@ class FormsController extends Controller {
 			if($this->f3->exists('POST.quit'))
 				$this->quit();
 		
-			$this->f3->set('content','app/views/forms.htm');
-			echo Template::instance()->render('app/templates/default.htm');
+			$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/forms.htm');
+			echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 		
 		} else {
 			// Not logged in?
@@ -77,7 +77,7 @@ class FormsController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('member')->email))
-			->setBody(Template::instance()->render('app/templates/emails/levelup-notif.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/levelup-notif.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) && $members->edit($this->f3->get('SESSION.userID'),array('level')) ) {
@@ -103,7 +103,7 @@ class FormsController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => $this->f3->get('tcgname')))
 					->setTo(array($this->f3->get('member')->email))
 					->setReplyTo(array($this->f3->get('tcgemail')))
-					->setBody(Template::instance()->render('app/templates/emails/levelup.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/levelup.htm'), 'text/html')
 					;
 				$result = $mailer->send($message);
 				
@@ -149,7 +149,7 @@ class FormsController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('member')->email))
-			->setBody(Template::instance()->render('app/templates/emails/mastery-notif.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/mastery-notif.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) && $members->edit($this->f3->get('SESSION.userID'),array('collecting')) ) {
@@ -175,7 +175,7 @@ class FormsController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => $this->f3->get('tcgname')))
 					->setTo(array($this->f3->get('member')->email))
 					->setReplyTo(array($this->f3->get('tcgemail')))
-					->setBody(Template::instance()->render('app/templates/emails/mastery.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/mastery.htm'), 'text/html')
 					;
 				$result = $mailer->send($message);
 				
@@ -210,7 +210,7 @@ class FormsController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('member')->email))
-			->setBody(Template::instance()->render('app/templates/emails/doubles-notif.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/doubles-notif.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) ) {
@@ -259,7 +259,7 @@ class FormsController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('member')->email))
-			->setBody(Template::instance()->render('app/templates/emails/mcrequest-notif.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/mcrequest-notif.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) ) {
@@ -290,7 +290,7 @@ class FormsController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('member')->email))
-			->setBody(Template::instance()->render('app/templates/emails/quit-notif.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/quit-notif.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) ) {

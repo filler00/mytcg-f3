@@ -18,7 +18,7 @@ class LoginController extends Controller {
 		if($this->f3->exists('POST.login'))
 			$this->login();
 		
-		echo Template::instance()->render('app/templates/admin-login.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin-login.htm');
 	}
 	private function login()
 	{

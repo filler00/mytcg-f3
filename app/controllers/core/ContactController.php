@@ -18,8 +18,8 @@ class ContactController extends Controller {
 		if($this->f3->exists('POST.submit'))
 			$this->process();
 	
-		$this->f3->set('content','app/views/contact.htm');
-		echo Template::instance()->render('app/templates/default.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/contact.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	private function process()
 	{
@@ -51,7 +51,7 @@ class ContactController extends Controller {
 			->setFrom(array($this->f3->get('noreplyemail') => 'MyTCG'))
 			->setTo(array($this->f3->get('tcgemail')))
 			->setReplyTo(array($this->f3->get('POST.email')))
-			->setBody(Template::instance()->render('app/templates/emails/contact.htm'), 'text/html')
+			->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/contact.htm'), 'text/html')
 			;
 			
 			if ( $mailer->send($message) ) {

@@ -2,7 +2,6 @@
 DEBUG = 0
 CACHE = TRUE
 LOGS = storage/logs/
-AUTOLOAD = "app/; vendor/;"
 
 ;Database Config
 db_server = localhost
@@ -38,8 +37,15 @@ width = 50px
 height = 75px
 ext = gif
 
+;Static CSS Files
+;ASSETS.css[0] = assets/css/style.css
+
+;Static JS Files
+;ASSETS.js[0] = assets/js/scripts.js
+
 ;Theme Settings
 theme = classic
+admintheme = classic
 
 ;TCG Level Config
 level[1] = Level 1

@@ -1708,8 +1708,6 @@ final class Base extends Prefab implements ArrayAccess {
 	protected function autoload($class) {
 		$class=$this->fixslashes(ltrim($class,'\\'));
 		$func=NULL;
-		$match = []; preg_match_all("/(.*)\\/(.*)$/", $class, $match, PREG_SET_ORDER);
-		if ( !isset($match[0][1]) ) { $match[0][1] = ''; $match[0][2] = ''; }
 		if (is_array($path=$this->hive['AUTOLOAD']) &&
 			isset($path[1]) && is_callable($path[1]))
 			list($path,$func)=$path;
@@ -1717,8 +1715,7 @@ final class Base extends Prefab implements ArrayAccess {
 			if ($func && is_file($file=$func($auto.$class).'.php') ||
 				is_file($file=$auto.$class.'.php') ||
 				is_file($file=$auto.strtolower($class).'.php') ||
-				is_file($file=strtolower($auto.$class).'.php') ||
-				is_file($file=$auto.strtolower($match[0][1]).'/'.$match[0][2].'.php'))
+				is_file($file=strtolower($auto.$class).'.php'))
 				return require($file);
 	}
 

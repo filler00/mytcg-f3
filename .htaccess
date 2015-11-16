@@ -13,6 +13,8 @@ RewriteEngine On
 
 RewriteRule ^(tmp)\/|\.ini$ - [R=404]
 
+RewriteRule ^plugins/(.*)/(.*)/assets/(.*) app/plugins/$1/$2/assets/$3 [L,QSA]
+
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

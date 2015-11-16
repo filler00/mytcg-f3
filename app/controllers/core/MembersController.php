@@ -18,8 +18,8 @@ class MembersController extends Controller {
 		}
 		$this->f3->set('pending',$members->getByStatus('pending'));
 		$this->f3->set('hiatus',$members->getByStatus('hiatus'));
-		$this->f3->set('content','app/views/members.htm');
-		echo Template::instance()->render('app/templates/default.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/members.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	public function profile($id)
 	{
@@ -27,8 +27,8 @@ class MembersController extends Controller {
 		if ( !$members->count(array('name=?',$id)) ) { $this->f3->error(404); }
 		else {
 			$this->f3->set('member',$members->read(array('name=?',$id),[])[0]); 
-			$this->f3->set('content','app/views/profile.htm'); 
-			echo Template::instance()->render('app/templates/default.htm');
+			$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/profile.htm'); 
+			echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 		}
 	}
 	public function login()
@@ -54,8 +54,8 @@ class MembersController extends Controller {
 				$this->f3->push('SESSION.flash',array('type'=>'danger','msg'=>'Authentication failed. Please try again or contact us for assistance.'));
 			}
 		}
-		$this->f3->set('content','app/views/login.htm'); 
-		echo Template::instance()->render('app/templates/default.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/login.htm'); 
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	public function logout()
 	{
@@ -91,7 +91,7 @@ class MembersController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => $this->f3->get('tcgname')))
 					->setTo(array($this->f3->get('POST.email')))
 					->setReplyTo(array($this->f3->get('tcgemail')))
-					->setBody(Template::instance()->render('app/templates/emails/pwreset.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/pwreset.htm'), 'text/html')
 					;
 				
 				// save new password and email to member
@@ -102,8 +102,8 @@ class MembersController extends Controller {
 				}
 			}
 		}
-		$this->f3->set('content','app/views/lostpass.htm'); 
-		echo Template::instance()->render('app/templates/default.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/lostpass.htm'); 
+		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
 	public function settings() {
 		if ( $this->f3->exists('SESSION.userID') ) {
@@ -160,8 +160,8 @@ class MembersController extends Controller {
 				}
 			}
 			
-			$this->f3->set('content','app/views/settings.htm');
-			echo Template::instance()->render('app/templates/default.htm');
+			$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/settings.htm');
+			echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 			
 		} else {
 			$this->f3->reroute('/members/login');
@@ -173,8 +173,8 @@ class MembersController extends Controller {
 		
 			$members = new Members($this->db);
 			$this->f3->set('member',$members->read(array('id=?',$this->f3->get('SESSION.userID')),[])[0]);
-			$this->f3->set('content','app/views/logs.htm'); 
-			echo Template::instance()->render('app/templates/default.htm');
+			$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/logs.htm'); 
+			echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 			
 		} else {
 			$this->f3->reroute('/members/login');

@@ -16,8 +16,8 @@ class IndexController extends Controller {
 		$this->f3->set('pendingMembers',$members->getByStatus('pending'));
 		$this->f3->set('upcomingDecks',$upcoming->all());
 		
-		$this->f3->set('content','app/views/mytcg/index.htm');
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/index.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	
 }

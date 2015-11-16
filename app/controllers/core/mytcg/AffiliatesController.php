@@ -23,8 +23,8 @@ class AffiliatesController extends Controller {
 		foreach ( $this->f3->get('affiliates_status') as $status ) {
 			$this->f3->set("affiliates.{$status}",$affiliates->read(array('status=?',$status),[]));	
 		}
-		$this->f3->set('content','app/views/mytcg/affiliates.htm');
-		echo Template::instance()->render('app/templates/admin.htm');
+		$this->f3->set('content','app/themes/'.$this->f3->get('admintheme').'/views/mytcg/affiliates.htm');
+		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/admin.htm');
 	}
 	
 	// ../mytcg/affiliates/edit/{id}
@@ -35,7 +35,7 @@ class AffiliatesController extends Controller {
 		if ( !$affiliates->count(array('id=?',$id)) ) { $this->f3->error(404); }
 		else {
 			$this->f3->set('affiliate',$affiliates->read(array('id=?',$id),[])[0]);	
-			echo Template::instance()->render('app/views/mytcg/affiliates_edit_form.htm');
+			echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/views/mytcg/affiliates_edit_form.htm');
 		}
 	}
 	
@@ -156,7 +156,7 @@ class AffiliatesController extends Controller {
 					->setFrom(array($this->f3->get('noreplyemail') => $this->f3->get('tcgname')))
 					->setTo(array( $affiliates->read(array('id=?', $this->f3->get('POST.id') ),[])[0]->email ))
 					->setReplyTo(array($this->f3->get('tcgemail')))
-					->setBody(Template::instance()->render('app/templates/emails/affiliate-approved.htm'), 'text/html')
+					->setBody(Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/templates/emails/affiliate-approved.htm'), 'text/html')
 					;
 					
 				// send email & save to db

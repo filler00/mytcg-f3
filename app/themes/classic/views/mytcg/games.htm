@@ -4,12 +4,12 @@
 	
 	<div class="row">
 		<div class="col-sm-8">
-			<div class="btn-group">
-				<form method="post">
+			<form method="post">
+				<div class="btn-group">
 					<button class="btn btn-warning" type="submit" name="update-all-submit" data-toggle="tooltip" data-placement="top" title="Update all games to the next available round"><i class="fa fa-arrow-circle-up"></i> &nbsp; Update All</button>
 					<button class="btn btn-success" type="submit" name="update-due-submit" data-toggle="tooltip" data-placement="top" title="Update due and overdue games to the next available round"><i class="fa fa-clock-o"></i> &nbsp; Update Due</button>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 		<div class="col-sm-4">
 			<div class="input-group pull-right">
@@ -99,7 +99,7 @@
 			</div>
 			<div class="modal-body">
 				
-				<include href="app/views/mytcg/games_add_form.htm" />
+				<include href="{{ 'app/themes/' .  @admintheme . '/views/mytcg/games_add_form.htm' }}" />
 				
 			</div>
 			<div class="modal-footer">

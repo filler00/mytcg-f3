@@ -35,7 +35,7 @@ class GameData extends \DB\Jig\Mapper {
 	}
 	public function delete($id)
 	{
-		$this->load(array('@_id = ?=?',$id));
+		$this->load(array('@_id = ?',$id));
 		return $this->erase();
 	}
 	
