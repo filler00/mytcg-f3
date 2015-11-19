@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ @tcgname }}: Starter Pack</title>
+</head>
+
+<body>
+
+<p>Thanks for joining <b>{{ @tcgname }}</b>, {{ @POST.name }}! Please hold off on playing any games until an administrator has approved your account. Below is a copy of your starter pack, in case you did not pick it up from the site.</p>
+
+<p>
+<repeat group="{{ @sp }}" value="{{ @card }}">
+	<img src="{{ @tcgcardurl . @card }}.{{ @ext }}" alt="{{ @card }}">
+</repeat>
+</p>
+
+<p><strong>Starter Pack</strong>: {{ implode(', ', @sp) }}</p>
+
+<p>Thanks again for joining and happy trading!</p>
+
+<p>
+-- {{ @tcgowner }}
+<br>{{ @tcgname }}
+<br><a href="{{ @tcgurl }}">{{ @tcgurl }}</a>
+</p>
+	
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ @tcgname }}: Starter Pack</title>
+</head>
+
+<body>
+
+<p>A new member has requested to join <b>{{ @tcgname }}</b>!</p>
+
+<p>
+<b>Name:</b> {{ @POST.name }}
+<br><b>Email:</b>  {{ @POST.email }}
+<br><b>Trade Post:</b>  {{ @POST.url }}
+<br><b>Collecting:</b>  {{ @POST.collecting }}
+<br><b>Birthday:</b>  {{ @POST.birthday }}
+<br><b>Referral:</b>  {{ @POST.refer }}
+</p>
+
+<p>To approve this member, go to your <a href="{{ @adminurl }}">admin panel</a>.</p>
+
+</body>
+</html>

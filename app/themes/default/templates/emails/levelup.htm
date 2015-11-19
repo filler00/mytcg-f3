@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ @tcgname }}: Level Up</title>
+</head>
+
+<body>
+
+<p>Congrats on leveling up to {{ @level[@member.level] }} at {{ @tcgname }}! Here's a copy of your rewards, in case you didn't grab them from the site!</p>
+
+<p>
+<repeat group="{{ @rewards }}" value="{{ @card }}">
+	<img src="{{ @tcgcardurl . @card }}.{{ @ext }}" alt="{{ @card }}">
+</repeat>
+</p>
+
+<p><strong>Level Up</strong>: {{ implode(', ', @rewards) }}</p>
+
+<p>Congrats again and happy trading!</p>
+
+<p>
+-- {{ @tcgowner }}
+<br>{{ @tcgname }}
+<br><a href="{{ @tcgurl }}">{{ @tcgurl }}</a>
+</p>
+
+</body>
+</html>

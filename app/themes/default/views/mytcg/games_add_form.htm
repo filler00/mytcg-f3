@@ -1,0 +1,60 @@
+<form id="new-game-form" method="post">
+	<div class="form-group">
+		<label for="long-name">Game Name</label> <i class="fa fa-question-circle pull-right" data-toggle="tooltip" data-placement="top" title="The display name for your game. It doesn't have to be unique, and can contain special characters."></i>
+		<input type="text" class="form-control" name="long-name" placeholder="ie. Spin The Wheel!" value="{{ isset(@POST['new-game-submit']) ? @POST['long-name'] : '' }}" required>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="name">Game Alias</label> <i class="fa fa-question-circle pull-right" data-toggle="tooltip" data-placement="top" title="A unique name for the game URI. Only lower-case, alphanumeric characters and dashes are allowed."></i>
+				<input type="text" class="form-control" name="name" placeholder="ie. spin-the-wheel" value="{{ isset(@POST['new-game-submit']) ? @POST.name : '' }}" required>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="category">Category</label>
+				<select class="form-control" name="category" required>
+					<repeat group="{{ @gamecat }}" value="{{ @cat }}" key="{{ @index }}">
+						<option value="{{ @index }}">{{ @cat }}</option>
+					</repeat>
+				</select>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="schedule-day">Update Schedule</label> <i class="fa fa-question-circle pull-right" data-toggle="tooltip" data-placement="top" title="Note that this feature will NOT automatically push updates for you! This schedule allows MyTCG-f3 to keep track of your upcoming due dates, and bulk update due games for you on command."></i>
+				<div class="row">
+					<div class="col-sm-6">
+						<select class="form-control" name="schedule-day" required>
+							<repeat group="{{ @scheduleDays }}" value="{{ @day }}" key="{{ @key }}">
+								<option value="{{ @key }}">{{ @day }}</option>
+							</repeat>
+						</select>
+					</div>
+					<div class="col-sm-6">
+						<select class="form-control" name="schedule-frequency" required>
+							<repeat group="{{ @scheduleFrequencies }}" value="{{ @frequency }}" key="{{ @key }}">
+								<option value="{{ @key }}">{{ @frequency }}</option>
+							</repeat>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="start-date">Schedule Start Date</label>
+				<input type="date" class="form-control" name="start-date" value="{{ date('Y-m-d') }}" required>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="description">Description</label>
+		<input type="text" class="form-control" name="description" value="{{ isset(@POST['new-game-submit']) ? @POST.description : '' }}">
+	</div>
+</form>

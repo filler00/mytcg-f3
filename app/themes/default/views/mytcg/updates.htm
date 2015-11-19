@@ -1,0 +1,63 @@
+<div class="row">
+	<div class="col-md-7">
+		<check if="{{ @version.latest }}">
+			<false>
+				<h1 class="text-warning"><i class="fa fa-exclamation-triangle"></i> &nbsp; MyTCG-f3 {{ @version.current.tag_name }} is installed</h1>
+				<p class="bg-warning">MyTCG-f3 wasn't able to automatically detect your update status. You can check for new releases manually on <a href="https://github.com/filler00/mytcg-f3/releases">GitHub</a>, and get help with updates on the <a href="https://github.com/filler00/mytcg-f3/wiki">MyTCG-f3 Wiki</a>.</p>
+			</false>
+			<true>
+				<check if="{{ @version.update }}">
+					<true>
+						<h1 class="text-danger"><i class="fa fa-exclamation-triangle"></i> &nbsp; MyTCG-f3 {{ @version.current.tag_name }} is installed</h1>
+						<p class="bg-danger">You are running an outdated version of MyTCG-f3. Please install the latest release!</p>
+					</true>
+					<false>
+						<h1 class="text-success"><i class="fa fa-check-circle"></i> &nbsp; MyTCG-f3 {{ @version.current.tag_name }} is installed</h1>
+						<p class="bg-success">You are currently running the latest stable version of MyTCG-f3!</p>
+					</false>
+				</check>
+			</true>
+		</check>
+		
+		<hr>
+		
+		<h4>{{ @version.latest.name }}</h4>
+		<p><span class="badge">{{ @version.current.tag_name }} release notes</span> &nbsp; <em>published {{ date('F d, Y', strtotime(@version.current.published_at)) }}</em></p>
+		{{ @releaseNotes | raw }}
+	</div>
+	<div class="col-md-5">
+		<h2>Latest Releases</h2>
+		<table class="table releases">
+			<repeat group="{{ @feed }}" value="{{ @release }}">
+				<check if="{{ version_compare(@release.tag_name, @version.current.tag_name, '>=') }}">
+					<tr>
+						<td>
+							<span class="label {{ ( @release.prerelease ) ? 'label-warning' : ( @release.tag_name == @version.latest.tag_name ) ? 'label-success' : 'label-default' }}">{{ @release.tag_name }}</span>
+							<check if="{{ @release.tag_name == @version.latest.tag_name }}"><span class="label label-info">latest</span></check>
+							<check if="{{ @release.prerelease }}"><span class="label label-danger">development</span></check>
+						</td>
+						<td><a href="{{ @release.html_url }}" target="_blank">{{ @release.name }}</a></td>
+						<td>{{ date('F d, Y', strtotime(@release.published_at)) }}</td>
+						<td>
+							<check if="{{ !@release.prerelease }}">
+								<check if="{{ @release.tag_name == @version.latest.tag_name }}">
+									<true>
+										<form method="POST">
+											<input type="hidden" name="tag" value="{{ @release.tag_name }}">
+											<button type="submit" name="install" class="btn btn-primary btn-xs"><i class="fa fa-cloud-download"></i> &nbsp; Install</button>
+										</form>
+									</true>
+									<false>
+										<check if="{{ @release.tag_name == @version.current.tag_name }}">
+											<small><em>Current Version</em></small>
+										</check>
+									</false>
+								</check>
+							</check>
+						</td>
+					</tr>
+				</check>
+			</repeat>
+		</table>
+	</div>
+</div>

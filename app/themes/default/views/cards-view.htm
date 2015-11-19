@@ -1,0 +1,23 @@
+<h1>Cards > {{ @info.deckname }}</h1>
+
+<table class="table">
+	<tbody>
+		<tr>
+			<td><img src="{{ @tcgcardurl }}{{ @info.filename }}00.{{ @ext }}" alt="Filler Card"></td>
+			<td>
+				<strong>Deck Name:</strong> {{ @info.deckname }} ({{ @info.filename }})
+				<br><strong>Card Count:</strong> {{ @info.count }}
+				<br><strong>Card Worth:</strong> {{ @info.worth }}
+				<br><strong>Masterable?:</strong> {{ @info.masterable }}
+				<br><strong>Masters:</strong> {{ @info.masters }}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="text-center">
+	<repeat group="{{ range(1,@info.count) }}" value="{{ @count }}"><img src="{{ @tcgcardurl }}{{ @info.filename }}{{ str_pad(@count, 2, '0', STR_PAD_LEFT) }}.{{ @ext }}"><check if="{{ strtolower(@info.puzzle) != 'yes' }}">&nbsp;</check></repeat>
+</div>
+
+<h2>Master Badge</h2>
+<img src="{{ @tcgcardurl }}{{ @info.filename }}-master.{{ @ext }}">

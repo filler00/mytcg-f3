@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ @tcgname }}: Contact Form</title>
+</head>
+
+<body>
+
+<p>You received a message via the Contact Form on <strong>{{ @tcgname }}</strong>:</p>
+
+<p>
+<strong>Name:</strong> {{ @POST.name }}
+<br><strong>Email:</strong>  {{ @POST.email }}
+<br><strong>URL:</strong>  {{ @POST.url }}
+<br><strong>Message:</strong>  {{ @POST.message }}
+</p>
+
+</body>
+</html>

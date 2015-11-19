@@ -1,0 +1,47 @@
+<h1>Cards</h1>
+<ul>
+	<li><strong>#</strong> = card count</li>
+	<li><strong>$</strong> = card worth</li>
+	<li><a href="{{ @tcgurl }}cards/alpha">Sort Alphabetically</a></li>
+	<li><a href="{{ @tcgurl }}cards/members">Member Cards</a></li>
+	<li><a href="{{ @tcgurl }}cards/upcoming">Upcoming Decks</a></li>
+</ul>
+
+<check if="{{ count(@category) > 0 }}">
+	<true>
+		<repeat group="{{ @category }}" value="{{ @cat }}" key="{{ @index }}">
+			<h2>{{ @cat }}</h2>
+			
+			<!-- Display decks from {{ @cat }} -->
+			<check if="{{ count(@decks[@index]) > 0 }}">
+				<true>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Deck Name</th>
+								<th>Description</th>
+								<th>#/$</th>
+							</tr>
+						</thead>
+						<tbody class="table-hover">
+						<repeat group="{{ @decks[@index] }}" value="{{ @card }}">
+							<tr>
+								<td><a href="{{ @tcgurl }}cards/view/{{ @card.filename }}">{{ @card.deckname }}</a></td>
+								<td>{{ @card.description }}</td>
+								<td>{{ @card.count }}/{{ @card.worth }}</td>
+							</tr>
+						</repeat>
+						</tbody>
+					</table>
+				</true>
+				<false>
+					<p><em>There are no cards in this category!</em></p>
+				</false>
+			</check>
+			
+		</repeat>
+	</true>
+	<false>
+		<p><em>There are no categories!</em></p>
+	</false>
+</check>
