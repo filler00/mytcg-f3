@@ -36,6 +36,7 @@ class PluginsController extends Controller {
 	public function add()
 	{
 		$this->f3->set('registry', $this->plugins->registry());
+		$this->f3->set('installed', $this->plugins->listPackages());
 		
 		echo Template::instance()->render('app/themes/'.$this->f3->get('admintheme').'/views/mytcg/plugins_add_form.htm');
 	}

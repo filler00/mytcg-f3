@@ -15,14 +15,16 @@
 					<th >Description</th>
 				</thead>
 				<repeat group="{{ @registry }}" value="{{ @plugin }}" key="{{ @package }}">
-					<tr>
-						<td data-add-plugin-id="{{ @package }}">
-							<input type="checkbox" name="plugins[]" value="{{ @package }}">
-						</td>
-						<td><a href="{{ ( isset(@plugin.supportUrl) && @plugin.supportUrl != "" ) ? @plugin.supportUrl : 'https://github.com/' . @package }}">{{ @plugin.name }}</a></td>
-						<td><a href="{{ ( isset(@plugin.authorUrl) && @plugin.authorUrl != "" ) ? @plugin.authorUrl : 'https://github.com/' . @package }}">{{ @plugin.author }}</a></td>
-						<td>{{ @plugin.description }}</td>
-					</tr>
+					<check if="{{ !in_array(@package, @installed)  }}">
+						<tr>
+							<td data-add-plugin-id="{{ @package }}">
+								<input type="checkbox" name="plugins[]" value="{{ @package }}">
+							</td>
+							<td><a href="{{ ( isset(@plugin.supportUrl) && @plugin.supportUrl != "" ) ? @plugin.supportUrl : 'https://github.com/' . @package }}">{{ @plugin.name }}</a></td>
+							<td><a href="{{ ( isset(@plugin.authorUrl) && @plugin.authorUrl != "" ) ? @plugin.authorUrl : 'https://github.com/' . @package }}">{{ @plugin.author }}</a></td>
+							<td>{{ @plugin.description }}</td>
+						</tr>
+					</check>
 				</repeat>
 			</table>
 		
