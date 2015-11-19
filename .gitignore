@@ -1,3 +1,4 @@
 *.ini
 *.sql
+.tag_name
 storage/admin-notes.txt

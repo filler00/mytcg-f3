@@ -7,12 +7,15 @@ use \DB\SQL;
 use \DB\Jig;
 use \Session;
 
+use Models\Core\Releases;
+
 class Controller {
 	
 	protected $f3;
 	protected $db;
 	protected $jig;
 	protected $auth;
+	protected $releases;
 	
 	function __construct() {
 		$f3 = Base::instance();
@@ -27,6 +30,9 @@ class Controller {
 		$user = new SQL\Mapper($this->db, 'members');
 		$this->auth = new \Auth($user, array('id'=>'name', 'pw'=>'password'));
 		$this->f3 = $f3;
+		
+		$this->releases = new Releases($this->db);
+		$this->f3->set('version', $this->releases->version);
 	}
 	
 	function beforeRoute() {

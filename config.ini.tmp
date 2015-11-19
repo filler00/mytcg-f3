@@ -44,8 +44,8 @@ ext = gif
 ;ASSETS.js[0] = assets/js/scripts.js
 
 ;Theme Settings
-theme = classic
-admintheme = classic
+theme = default
+admintheme = default
 
 ;TCG Level Config
 level[1] = Level 1
