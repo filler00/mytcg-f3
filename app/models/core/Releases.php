@@ -102,9 +102,9 @@ class Releases
 			$files = new \RecursiveIteratorIterator($dirs, \RecursiveIteratorIterator::CHILD_FIRST);
 			foreach($files as $file) {
 				if ($file->isDir())
-					var_dump($file); //rmdir($file->getRealPath());
+					rmdir($file->getRealPath());
 				else
-					var_dump($file); //unlink($file->getRealPath());
+					unlink($file->getRealPath());
 			}
 			
 			// remove old core model files
@@ -112,19 +112,28 @@ class Releases
 			$files = new \RecursiveIteratorIterator($dirs, \RecursiveIteratorIterator::CHILD_FIRST);
 			foreach($files as $file) {
 				if ($file->isDir())
-					var_dump($file); //rmdir($file->getRealPath());
+					rmdir($file->getRealPath());
 				else
-					var_dump($file); //unlink($file->getRealPath());
+					unlink($file->getRealPath());
 			}
 			
-			// install new core files
-			if ( 
-					rename('tmp/downloads/mytcg-f3-' . preg_replace('/^[v]/', '', $tag) . '/app/controllers/core', 'app/controllers/core')
+			// remove old vendor files
+			$dirs = new \RecursiveDirectoryIterator('vendor', \RecursiveDirectoryIterator::SKIP_DOTS);
+			$files = new \RecursiveIteratorIterator($dirs, \RecursiveIteratorIterator::CHILD_FIRST);
+			foreach($files as $file) {
+				if ($file->isDir())
+					rmdir($file->getRealPath());
+				else
+					unlink($file->getRealPath());
+			}
+			
+			// install new core & vendor files
+			if ( 	rename('tmp/downloads/mytcg-f3-' . preg_replace('/^[v]/', '', $tag) . '/app/controllers/core', 'app/controllers/core')
 					&& rename('tmp/downloads/mytcg-f3-' . preg_replace('/^[v]/', '', $tag) . '/app/models/core', 'app/models/core')
-					&& rename('tmp/downloads/mytcg-f3-' . preg_replace('/^[v]/', '', $tag) . '/vendor', 'vendor')
-				)
+					&& rename('tmp/downloads/mytcg-f3-' . preg_replace('/^[v]/', '', $tag) . '/vendor', 'vendor') ) {
+				$this->f3->write('.tag_name', $tag); 
 				return true;
-			else
+			} else
 				return false;
 			
 		} else { return false; }
