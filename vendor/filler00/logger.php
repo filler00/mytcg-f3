@@ -21,7 +21,7 @@ class Logger {
 	{
 		// if logs exist, prepend new logs
 		if ( $this->f3->read("storage/logs/$id.log") )
-			$logs = $logs . "<br>" . $this->f3->read("logs/$id.log");
+			$logs = $logs . "<br>" . $this->f3->read("storage/logs/$id.log");
 
 		( $this->f3->write("storage/logs/$id.log",$logs) ? true : false );
 	}
