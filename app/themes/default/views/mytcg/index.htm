@@ -8,7 +8,7 @@
 							<i class="fa fa-circle fa-stack-2x text-danger"></i>
 							<i class="fa fa-users fa-stack-1x fa-inverse"></i>
 						</div>
-						<p class="h2 text-danger">56</p>
+						<p class="h2 text-danger">{{ @totalmembers }}</p>
 						<p class="text-muted">Members</p>
 					</div>
 				</div>
@@ -20,7 +20,7 @@
 						  <i class="fa fa-circle fa-stack-2x text-warning"></i>
 						  <i class="fa fa-th-large fa-stack-1x fa-inverse"></i>
 						</div>
-						<p class="h2 text-warning">2500</p>
+						<p class="h2 text-warning">{{ @totalcards }}</p>
 						<p class="text-muted">Cards</p>
 					</div>
 				</div>
@@ -32,7 +32,7 @@
 						  <i class="fa fa-circle fa-stack-2x text-success"></i>
 						  <i class="fa fa-gamepad fa-stack-1x fa-inverse"></i>
 						</div>
-						<p class="h2 text-success">16</p>
+						<p class="h2 text-success">{{ @totgames }}</p>
 						<p class="text-muted">Games</p>
 					</div>
 				</div>
@@ -44,7 +44,7 @@
 						  <i class="fa fa-circle fa-stack-2x text-info"></i>
 						  <i class="fa fa-link fa-stack-1x fa-inverse"></i>
 						</div>
-						<p class="h2 text-info">25</p>
+						<p class="h2 text-info">{{ @totaffiliates }}</p>
 						<p class="text-muted">Affiliates</p>
 					</div>
 				</div>
@@ -54,7 +54,10 @@
 	<div class="col-lg-5 col-md-12">
 		<check if="{{ file_exists('storage/admin-notes.txt') }}">
 			<true>
+				<div class="col-lg-12 admin-notes-div">
+				<p class="saving-info"><i class="fa fa-spinner fa-pulse loading"></i> <span class="loading">Saving</span></p>
 				<textarea id="admin-notes"><include href="{{ 'storage/admin-notes.txt' }}" /></textarea>
+			</div>
 			</true>
 			<false>
 				<em>Oops - MyTCG-f3 can't find your notes! Make sure you have an 'admin-notes.txt' file in your "storage" directory!</em>
@@ -66,7 +69,7 @@
 <div class="row">
 	<div class="col-lg-4">
 		<h2 class="sub-header">Pending Members</h2>
-		
+
 		<check if="{{ count(@pendingMembers) > 0 }}">
 			<true>
 				<table class="table table-hover">
@@ -75,7 +78,7 @@
 							<th>Name</th><th>Website</th><th>&nbsp;</th>
 						</tr>
 					</thead>
-					<tbody class="table-hover">
+					<tbody class="list">
 						<repeat group="{{ @pendingMembers }}" value="{{ @member }}">
 							<tr>
 								<td><a href="{{ @tcgurl }}members/profile/{{ @member.name }}">{{ @member.name }}</a></a></td>
@@ -83,10 +86,11 @@
 								<td>
 									<form method="post">
 										<input type="hidden" name="id" value="{{ @member.id }}">
-										
-										<div class="btn-group" role="group">
-											<button class="btn btn-xs btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to remove {{ @member.name }} from the members list? This action can't be undone." type="submit" name="delete-member-submit"><i class="fa fa-times"></i></button>
-											<button class="btn btn-xs btn-success" type="submit" name="approve-member-submit"><i class="fa fa-check"></i></button>
+
+										<div class="btn-group pull-right" role="group">
+											<button class="btn btn-danger trigger-alert" data-alert-title="Confirm Delete" data-alert-msg="Are you sure that you want to remove {{ @member.name }} from the members list? This action can't be undone." type="submit" name="delete-member-submit"><i class="fa fa-times"></i></button>
+											<button class="btn btn-success" type="submit" name="approve-member-submit"><i class="fa fa-check"></i></button>
+
 										</div>
 									</form>
 								</td>
@@ -102,32 +106,102 @@
 	</div>
 	<div class="col-lg-4">
 		<h2 class="sub-header">Upcoming Decks</h2>
-		
+
 		<check if="{{ count(@upcomingDecks) > 0 }}">
 			<true>
-				<table class="table">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>Deck Name</th>
 							<th>Category</th>
+							<th>&nbsp;</th>
 						</tr>
 					</thead>
-					<tbody class="table-hover">
+					<tbody class="list">
 					<repeat group="{{ @upcomingDecks }}" value="{{ @deck }}">
 						<tr>
 							<td>{{ @deck.deckname }}</a></td>
 							<td>{{ @category[@deck.category] }}</td>
+							<td>
+								<form method="post">
+									<input type="hidden" name="id" value="{{ @deck.id }}">
+									<input type="hidden" name="status" value="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}">
+
+									<div class="btn-group btn-cells pull-right" role="group">
+										<button type="button" class="btn btn-success" data-deck-status="{{ isset(@deck.filename) ? 'Released' : 'Upcoming' }}" data-deck-id="{{ @deck.id }}" data-toggle="modal" data-target="#release-decks-modal"><i class="fa fa-check"></i></button>
+									</div>
+								</form>
+							</td>
 						</tr>
 					</repeat>
 					</tbody>
 				</table>
 			</true>
 			<false>
-				There are currently no upcoming decks.
+				<p><em>There are currently no upcoming decks.</em></p>
 			</false>
 		</check>
 	</div>
 	<div class="col-lg-4">
 		<h2 class="sub-header">Game Updates</h2>
+		<check if="{{ count(@games) > 0 }}">
+			<true>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Game</th>
+							<th>Next Update</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody class="list">
+						<repeat group="{{ @games }}" value="{{ @game }}">
+							<tr>
+								<td class="gamename"><a href="{{ @tcgurl }}games/view/{{ @game.name }}">{{ @gameData[@game.id]['long-name'] }}</a></td>
+								<td class="{{ ( time() > strtotime(@gameData[@game.id]['schedule'], @game.updated) ) ? 'danger' : '' }} {{ ( time() == strtotime(@gameData[@game.id]['schedule'], @game.updated) ) ? 'success' : '' }}">
+									{{ date("D, d M Y", strtotime(@gameData[@game.id]['schedule'], @game.updated)) }}
+								</td>
+
+								<td>
+									<form method="post">
+										<input type="hidden" name="id" value="{{ @game.id }}">
+										<input type="hidden" name="dataId" value="{{ @gameData[@game.id]._id }}">
+
+										<div class="btn-group btn-cells pull-right" role="group">
+											<button class="btn btn-success trigger-alert" data-alert-title="Confirm Update" data-alert-msg="Are you sure that you want to update the {{ @game.name }} game to the next round?" type="submit" name="update-game-submit" {{ ( count(@gameData[@game.id]['rounds']) == 0 && !@gameData[@game.id]['schedule-enabled'] ) ? 'disabled' : '' }}><i class="fa fa-arrow-up"></i></button>
+										</div>
+									</form>
+								</td>
+
+							</tr>
+						</repeat>
+					</tbody>
+				</table>
+			</true>
+			<false>
+				<p><em>There are no games that need updating.</em></p>
+			</false>
+		</check>
+	</div>
+</div>
+
+<div class="modal fade" id="release-decks-modal" tabindex="-1" role="dialog" aria-labelledby="release-decks-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="release-decks-modal-label">Edit Deck</h4>
+			</div>
+			<div class="modal-body">
+
+				<p>Loading...</p>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary" name="release-deck-submit" form="edit-cards-form">Submit</button>
+			</div>
+		</div>
 	</div>
 </div>
