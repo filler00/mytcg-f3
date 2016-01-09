@@ -14,13 +14,13 @@ class JoinController extends Controller {
 		$cards = new Cards($this->db);
 		$members = new Members($this->db);
 		$this->f3->set('months',array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'));
-		
+
 		if($this->f3->exists('POST.join'))
 		{
 			$audit = \Audit::instance();
 			$this->f3->scrub($_POST);
 			$this->f3->set('SESSION.flash',array());
-			
+
 			// validate form
 			if ( !preg_match("/^[\w\-]{2,30}$/", $this->f3->get('POST.name')) )
 				$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid name. Only letters, numbers, underscores (_), and dashes (-) are allowed.'));
@@ -42,11 +42,11 @@ class JoinController extends Controller {
 				$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid collecting deck.'));
 			if ( $this->f3->get('POST.refer') !== '' && $members->count(array('name=?',$this->f3->get('POST.refer'))) == 0 )
 				$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Invalid referral - that player\'s name doesn\'t exist in our database. Please check your spelling and try again!'));
-				
+
 			// honey pot
 			if ( $this->f3->get('POST.username') !== '' )
 				$this->f3->push('SESSION.flash',array('type'=>'warning','msg'=>'Please do not use autofill or similar tools!'));
-			
+
 			// process form if there are no errors
 			if ( count($this->f3->get('SESSION.flash')) === 0 ) {
 				$this->f3->set('POST.status','Pending');
@@ -58,7 +58,7 @@ class JoinController extends Controller {
 				$this->f3->set('POST.password',password_hash($this->f3->get('POST.password'), PASSWORD_DEFAULT));
 				$this->f3->set('collectingID',$this->f3->get('POST.collecting'));
 				$this->f3->set('POST.collecting',$cards->getById($this->f3->get('POST.collecting'))->filename);
-				
+
 				$mailer = new Mailer;
 				$message = $mailer->message()
 					->setSubject($this->f3->get('tcgname') . ': New Member')
@@ -70,7 +70,7 @@ class JoinController extends Controller {
 
 				// send email & save to db
 				if ( $mailer->send($message) && $members->add() ) {
-					
+
 					$this->f3->set('sp',array());
 					// random choice cards
 					for ( $i = 0; $i < $this->f3->get('num_startchoice'); $i++ ) { $this->f3->push('sp',$cards->random(array('id=?',$this->f3->get('collectingID')))); }
@@ -78,17 +78,17 @@ class JoinController extends Controller {
 					for ( $i = 0; $i < $this->f3->get('num_startreg'); $i++ ) { $this->f3->push('sp',$cards->random(array('worth=?',1))); }
 					// random special cards
 					for ( $i = 0; $i < $this->f3->get('num_startspc'); $i++ ) { $this->f3->push('sp',$cards->random(array('worth=?',2))); }
-					
+
 					$mailer = new Mailer;
 					$message = $mailer->message()
 						->setSubject($this->f3->get('tcgname') . ': Starter Pack')
 						->setFrom(array($this->f3->get('noreplyemail') => $this->f3->get('tcgname')))
 						->setTo(array($this->f3->get('POST.email')))
 						->setReplyTo(array($this->f3->get('tcgemail')))
-						->setBody(Template::instance()->render('app/templates/emails/starterpack.htm'), 'text/html')
+						->setBody(Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/emails/starterpack.htm'), 'text/html')
 						;
 					$result = $mailer->send($message);
-					
+
 					// load welcome message
 					$this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/welcome.htm');
 				} else {
@@ -96,10 +96,10 @@ class JoinController extends Controller {
 				}
 			}
 		}
-		
+
 		if ( !$this->f3->exists('content') ) { $this->f3->set('content','app/themes/'.$this->f3->get('theme').'/views/join.htm'); }
 		$this->f3->set('decks',$cards->allAlpha());
 		echo Template::instance()->render('app/themes/'.$this->f3->get('theme').'/templates/default.htm');
 	}
-	
+
 }
